@@ -56,6 +56,9 @@ export function DetailedFinanceModal({
     return (
       <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Dialog.Content maxWidth="36rem">
+          <Dialog.Description className="sr-only">
+            {category}の詳細な財務データと内訳を表示
+          </Dialog.Description>
           <div className="flex justify-between items-start mb-4">
             <Dialog.Title className="text-xl font-bold text-gray-800">
               {category}の詳細 ({period})
@@ -83,6 +86,10 @@ export function DetailedFinanceModal({
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Content maxWidth="36rem">
+        <Dialog.Description className="sr-only">
+          {category}の詳細な{isRevenue ? "歳入" : "歳出"}
+          データをチャートと内訳で表示
+        </Dialog.Description>
         <div className="flex justify-between items-start mb-4">
           <Dialog.Title className="text-xl font-bold text-gray-800">
             {category}の詳細 ({period}) - {isRevenue ? "歳入" : "歳出"}

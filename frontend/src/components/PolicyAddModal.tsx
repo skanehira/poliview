@@ -116,6 +116,9 @@ export function PolicyAddModal({
           maxWidth="48rem"
           className="relative max-h-[90vh] overflow-y-auto"
         >
+          <Dialog.Description className="sr-only">
+            新しい政策を追加するためのフォーム
+          </Dialog.Description>
           <Flex justify="between" align="start" mb="4">
             <Dialog.Title className="text-xl font-semibold text-blue-700">
               新しい政策を追加

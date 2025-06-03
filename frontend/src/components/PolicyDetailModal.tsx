@@ -45,6 +45,9 @@ export function PolicyDetailModal({
         maxWidth="48rem"
         className="max-h-[90vh] overflow-y-auto relative"
       >
+        <Dialog.Description className="sr-only">
+          政策の詳細情報、メタデータ、コメントを表示
+        </Dialog.Description>
         <div className="flex justify-between items-start mb-4">
           <Dialog.Title className="text-2xl font-bold text-blue-700">
             {policy.title}
