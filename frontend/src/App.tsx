@@ -7,6 +7,7 @@ import {
 } from "react";
 import { Button } from "@radix-ui/themes";
 import { PolicyDetailModal } from "./components/PolicyDetailModal";
+import type { Policy, NewPolicy, Policies } from "./types/policy";
 import {
   Bar,
   BarChart,
@@ -32,39 +33,6 @@ import {
 } from "./data/finances";
 import { DUMMY_POLICIES } from "./data/policies";
 
-// 型定義
-interface Comment {
-  id: string;
-  author: string;
-  text: string;
-  timestamp: string;
-  upvotes: number;
-  downvotes: number;
-}
-
-interface Policy {
-  id: string;
-  title: string;
-  purpose: string;
-  overview: string;
-  detailedPlan: string;
-  problems: string[];
-  benefits: string[];
-  drawbacks: string[];
-  year: number;
-  keywords: string[];
-  relatedEvents: string[];
-  upvotes: number;
-  downvotes: number;
-  budget?: number;
-  status?: string;
-  comments: Comment[];
-}
-
-type NewPolicy = Omit<Policy, "id" | "upvotes" | "downvotes" | "comments">;
-
-type Policies = Policy[];
-
 // 確認ダイアログコンポーネントの型定義
 interface ConfirmationModalProps {
   message: string;
@@ -87,20 +55,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full text-center">
         <p className="text-lg font-semibold mb-4">{message}</p>
         <div className="flex justify-center space-x-4">
-          <Button
-            onClick={onConfirm}
-            color="red"
-            variant="solid"
-            size="2"
-          >
+          <Button onClick={onConfirm} color="red" variant="solid" size="2">
             はい
           </Button>
-          <Button
-            onClick={onCancel}
-            color="gray"
-            variant="soft"
-            size="2"
-          >
+          <Button onClick={onCancel} color="gray" variant="soft" size="2">
             いいえ
           </Button>
         </div>
@@ -784,7 +742,6 @@ const FinanceChart: React.FC = () => {
   );
 };
 
-
 function App() {
   const [policies, setPolicies] = useState<Policies>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -1188,7 +1145,11 @@ function App() {
             variant={activeTab === "policies" ? "solid" : "ghost"}
             color="gray"
             size="2"
-            className={activeTab === "policies" ? "border-b-2 border-white text-white" : "text-blue-200 hover:text-white"}
+            className={
+              activeTab === "policies"
+                ? "border-b-2 border-white text-white"
+                : "text-blue-200 hover:text-white"
+            }
           >
             政策一覧
           </Button>
@@ -1197,7 +1158,11 @@ function App() {
             variant={activeTab === "finance" ? "solid" : "ghost"}
             color="gray"
             size="2"
-            className={activeTab === "finance" ? "border-b-2 border-white text-white" : "text-blue-200 hover:text-white"}
+            className={
+              activeTab === "finance"
+                ? "border-b-2 border-white text-white"
+                : "text-blue-200 hover:text-white"
+            }
           >
             市政の収支
           </Button>
@@ -1435,12 +1400,7 @@ function App() {
                 </select>
               </div>
               <div className="md:col-span-2 flex justify-end">
-                <Button
-                  type="submit"
-                  variant="solid"
-                  color="blue"
-                  size="3"
-                >
+                <Button type="submit" variant="solid" color="blue" size="3">
                   政策を保存
                 </Button>
               </div>
@@ -1575,7 +1535,9 @@ function App() {
         isSummarizing={isSummarizing}
         simplifiedPolicyText={simplifiedPolicyText}
         showSimplifiedSummary={showSimplifiedSummary}
-        onToggleSimplifiedSummary={() => setShowSimplifiedSummary(!showSimplifiedSummary)}
+        onToggleSimplifiedSummary={() =>
+          setShowSimplifiedSummary(!showSimplifiedSummary)
+        }
       />
 
       {/* フローティングアクションボタン (FAB) メニュー */}
@@ -1638,6 +1600,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;

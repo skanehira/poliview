@@ -57,12 +57,13 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
             <h3 className="text-lg font-semibold text-gray-800 mb-2">人気度</h3>
             {popularity !== null ? (
               <span
-                className={`text-md font-bold ${popularity >= 70
+                className={`text-md font-bold ${
+                  popularity >= 70
                     ? "text-green-600"
                     : popularity >= 40
                       ? "text-yellow-600"
                       : "text-red-600"
-                  }`}
+                }`}
               >
                 {popularity.toFixed(0)}%
               </span>
@@ -73,12 +74,13 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
             )}
             <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
               <div
-                className={`h-2.5 rounded-full ${popularity >= 70
+                className={`h-2.5 rounded-full ${
+                  popularity >= 70
                     ? "bg-green-500"
                     : popularity >= 40
                       ? "bg-yellow-500"
                       : "bg-red-500"
-                  }`}
+                }`}
                 style={{ width: `${popularity || 0}%` }}
               />
             </div>
@@ -119,7 +121,14 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
           <p className="text-gray-700">{policy.detailedPlan}</p>
         </div>
       )}
+    </>
+  );
+}
 
+// メリット以降の部分を別コンポーネントとして作成
+export function PolicyBenefitsSection({ policy }: PolicyMetadataSectionProps) {
+  return (
+    <>
       {/* メリット */}
       {policy.benefits && policy.benefits.length > 0 && (
         <div className="mb-4">

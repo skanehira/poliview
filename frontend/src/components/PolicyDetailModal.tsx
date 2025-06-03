@@ -1,7 +1,10 @@
 import { Button, Dialog } from "@radix-ui/themes";
 import { PolicySummarySection } from "./PolicySummarySection";
 import { PolicyCommentsSection } from "./PolicyCommentsSection";
-import { PolicyMetadataSection } from "./PolicyMetadataSection";
+import {
+  PolicyMetadataSection,
+  PolicyBenefitsSection,
+} from "./PolicyMetadataSection";
 import type { Policy } from "../types/policy";
 
 interface PolicyDetailModalProps {
@@ -53,10 +56,10 @@ export function PolicyDetailModal({
           </Dialog.Close>
         </div>
 
-        {/* メタデータセクション */}
+        {/* メタデータセクション（具体的計画まで） */}
         <PolicyMetadataSection policy={policy} />
 
-        {/* 要約セクション */}
+        {/* 要約セクション（具体的計画の内容とメリットの間） */}
         <PolicySummarySection
           policy={policy}
           onSummarizePolicy={onSummarizePolicy}
@@ -65,6 +68,9 @@ export function PolicyDetailModal({
           showSimplifiedSummary={showSimplifiedSummary}
           onToggleSimplifiedSummary={onToggleSimplifiedSummary}
         />
+
+        {/* メリット・デメリット・その他セクション */}
+        <PolicyBenefitsSection policy={policy} />
 
         {/* コメントセクション */}
         <PolicyCommentsSection
