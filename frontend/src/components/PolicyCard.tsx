@@ -8,11 +8,11 @@ interface PolicyCardProps {
   getStatusClasses: (status: string) => string;
 }
 
-export const PolicyCard: React.FC<PolicyCardProps> = ({
+export function PolicyCard({
   policy,
   onPolicySelect,
   onVote,
-}) => {
+}: PolicyCardProps) {
   // 人気度を計算
   const totalVotes = (policy.upvotes || 0) + (policy.downvotes || 0);
   const popularity =
@@ -161,4 +161,4 @@ export const PolicyCard: React.FC<PolicyCardProps> = ({
       </Flex>
     </Card>
   );
-};
+}

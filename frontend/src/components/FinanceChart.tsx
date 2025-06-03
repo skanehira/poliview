@@ -33,7 +33,7 @@ import {
   DUMMY_FINANCE_INDICATORS,
 } from "../data/finances";
 
-export const FinanceChart: React.FC = () => {
+export function FinanceChart() {
   const [timeUnit, setTimeUnit] = useState<"year" | "month">("year");
   const [selectedPeriod, setSelectedPeriod] = useState<string | number>(""); // 初期値を空文字列に設定
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -631,4 +631,4 @@ export const FinanceChart: React.FC = () => {
       />
     </Card>
   );
-};
+}
