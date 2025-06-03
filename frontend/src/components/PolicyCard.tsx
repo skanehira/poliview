@@ -39,7 +39,7 @@ export const PolicyCard: React.FC<PolicyCardProps> = ({
         (e.currentTarget as HTMLElement).style.boxShadow = "";
       }}
     >
-      <Box style={{ flexGrow: 1 }}>
+      <Box style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         <Text
           size="5"
           weight="bold"
@@ -70,12 +70,12 @@ export const PolicyCard: React.FC<PolicyCardProps> = ({
             overflow: "hidden",
             textOverflow: "ellipsis",
             color: "var(--gray-11)",
-            marginBottom: "0.75rem",
+            flexGrow: 1,
           }}
         >
           {policy.overview}
         </Text>
-        <Flex gap="2" wrap="wrap">
+        <Flex gap="2" wrap="wrap" style={{ marginTop: "0.75rem" }}>
           {policy.keywords?.map((keyword) => (
             <Badge key={keyword} color="blue" variant="soft" size="1">
               {keyword}
