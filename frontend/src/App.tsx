@@ -6,6 +6,7 @@ import {
   type FormEvent,
 } from "react";
 import ReactMarkdown from "react-markdown"; // Markdownレンダリングのためにインポート
+import { Button, Dialog } from "@radix-ui/themes";
 import {
   Bar,
   BarChart,
@@ -86,20 +87,22 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full text-center">
         <p className="text-lg font-semibold mb-4">{message}</p>
         <div className="flex justify-center space-x-4">
-          <button
-            type="button"
+          <Button
             onClick={onConfirm}
-            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition duration-200"
+            color="red"
+            variant="solid"
+            size="2"
           >
             はい
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
             onClick={onCancel}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-200"
+            color="gray"
+            variant="soft"
+            size="2"
           >
             いいえ
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -148,13 +151,14 @@ const DetailedFinanceModal: React.FC<DetailedFinanceModalProps> = ({
     return (
       <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div className="bg-white rounded-lg shadow-xl p-6 max-w-xl w-full relative">
-          <button
-            type="button"
+          <Button
             onClick={onClose}
-            className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold"
+            variant="ghost"
+            size="1"
+            className="absolute top-3 right-3"
           >
             &times;
-          </button>
+          </Button>
           <h3 className="text-xl font-bold text-gray-800 mb-4">
             {category}の詳細 ({period})
           </h3>
@@ -172,13 +176,14 @@ const DetailedFinanceModal: React.FC<DetailedFinanceModalProps> = ({
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg shadow-xl p-6 max-w-xl w-full relative">
-        <button
-          type="button"
+        <Button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold"
+          variant="ghost"
+          size="1"
+          className="absolute top-3 right-3"
         >
           &times;
-        </button>
+        </Button>
         <h3 className="text-xl font-bold text-gray-800 mb-4">
           {category}の詳細 ({period}) - {isRevenue ? "歳入" : "歳出"}
         </h3>
@@ -378,20 +383,22 @@ const FinanceChart: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-3 sm:space-y-0 sm:space-x-4">
         {/* 時間単位選択 */}
         <div className="flex space-x-2 w-full sm:w-auto justify-center sm:justify-start">
-          <button
-            type="button"
+          <Button
             onClick={() => setTimeUnit("year")}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors duration-200 ${timeUnit === "year" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+            variant={timeUnit === "year" ? "solid" : "soft"}
+            color="blue"
+            size="2"
           >
             年単位
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
             onClick={() => setTimeUnit("month")}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors duration-200 ${timeUnit === "month" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+            variant={timeUnit === "month" ? "solid" : "soft"}
+            color="blue"
+            size="2"
           >
             月単位
-          </button>
+          </Button>
         </div>
 
         {/* 期間選択ドロップダウン */}
@@ -415,20 +422,22 @@ const FinanceChart: React.FC = () => {
 
         {/* チャートタイプ選択ボタン */}
         <div className="flex space-x-2 w-full sm:w-auto justify-center sm:justify-end">
-          <button
-            type="button"
+          <Button
             onClick={() => setChartType("bar")}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors duration-200 ${chartType === "bar" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+            variant={chartType === "bar" ? "solid" : "soft"}
+            color="blue"
+            size="2"
           >
             棒グラフ
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
             onClick={() => setChartType("pie")}
-            className={`px-4 py-2 rounded-md font-semibold transition-colors duration-200 ${chartType === "pie" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+            variant={chartType === "pie" ? "solid" : "soft"}
+            color="blue"
+            size="2"
           >
             円グラフ
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -798,20 +807,22 @@ const CommentItem: React.FC<CommentItemProps> = ({
       <p className="text-xs text-gray-500 mb-1">{comment.timestamp}</p>
       <p className="text-gray-800">{comment.text}</p>
       <div className="flex space-x-2 mt-2">
-        <button
-          type="button"
+        <Button
           onClick={() => onVoteComment(policyId, comment.id, "up")}
-          className="flex items-center text-green-600 hover:text-green-800 text-sm"
+          variant="ghost"
+          color="green"
+          size="1"
         >
           👍 {comment.upvotes || 0}
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
           onClick={() => onVoteComment(policyId, comment.id, "down")}
-          className="flex items-center text-red-600 hover:text-red-800 text-sm"
+          variant="ghost"
+          color="red"
+          size="1"
         >
           👎 {comment.downvotes || 0}
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -1215,20 +1226,24 @@ function App() {
         </div>
         {/* タブナビゲーション */}
         <div className="container mx-auto mt-4 flex border-b border-blue-500">
-          <button
-            type="button"
+          <Button
             onClick={() => setActiveTab("policies")}
-            className={`px-4 py-2 text-sm font-medium ${activeTab === "policies" ? "border-b-2 border-white text-white" : "text-blue-200 hover:text-white"}`}
+            variant={activeTab === "policies" ? "solid" : "ghost"}
+            color="gray"
+            size="2"
+            className={activeTab === "policies" ? "border-b-2 border-white text-white" : "text-blue-200 hover:text-white"}
           >
             政策一覧
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
             onClick={() => setActiveTab("finance")}
-            className={`px-4 py-2 text-sm font-medium ${activeTab === "finance" ? "border-b-2 border-white text-white" : "text-blue-200 hover:text-white"}`}
+            variant={activeTab === "finance" ? "solid" : "ghost"}
+            color="gray"
+            size="2"
+            className={activeTab === "finance" ? "border-b-2 border-white text-white" : "text-blue-200 hover:text-white"}
           >
             市政の収支
-          </button>
+          </Button>
         </div>
       </header>
 
@@ -1246,13 +1261,15 @@ function App() {
           >
             {" "}
             {/* モーダル内でのクリックは伝播させない */}
-            <button
-              type="button"
+            <Button
               onClick={handleCloseAddForm}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold"
+              variant="ghost"
+              color="gray"
+              size="1"
+              className="absolute top-3 right-3"
             >
               &times;
-            </button>
+            </Button>
             <h2 className="text-xl font-semibold mb-4 text-blue-700">
               新しい政策を追加
             </h2>
@@ -1461,12 +1478,14 @@ function App() {
                 </select>
               </div>
               <div className="md:col-span-2 flex justify-end">
-                <button
+                <Button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md shadow-md transition duration-200 ease-in-out"
+                  variant="solid"
+                  color="blue"
+                  size="3"
                 >
                   政策を保存
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -1531,26 +1550,30 @@ function App() {
                       </div>
                       <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
                         <div className="flex space-x-2">
-                          <button
-                            type={"button"}
+                          <Button
                             onClick={(e) => {
                               e.stopPropagation();
                               handleVote(policy.id, "up");
                             }}
-                            className="flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium hover:bg-green-200 transition-colors duration-200"
+                            variant="soft"
+                            color="green"
+                            size="1"
+                            radius="full"
                           >
                             👍 {policy.upvotes}
-                          </button>
-                          <button
-                            type={"button"}
+                          </Button>
+                          <Button
                             onClick={(e) => {
                               e.stopPropagation();
                               handleVote(policy.id, "down");
                             }}
-                            className="flex items-center px-3 py-1 rounded-full bg-red-100 text-red-800 text-sm font-medium hover:bg-red-200 transition-colors duration-200"
+                            variant="soft"
+                            color="red"
+                            size="1"
+                            radius="full"
                           >
                             👎 {policy.downvotes}
-                          </button>
+                          </Button>
                         </div>
                         {/* 人気度を表示 */}
                         {popularity !== null && (
@@ -1585,52 +1608,49 @@ function App() {
       </main>
 
       {/* 政策詳細モーダル */}
-      {selectedPolicy && (
-        <div
-          className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50"
-          onClick={closeModal}
-        >
-          <div
-            className="bg-white rounded-lg shadow-xl max-w-3xl w-full p-6 relative max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={closeModal}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold"
-            >
-              &times;
-            </button>
-            <h2 className="text-2xl font-bold text-blue-700 mb-4">
-              {selectedPolicy.title}
-            </h2>
+      <Dialog.Root open={selectedPolicy !== null} onOpenChange={(open) => !open && closeModal()}>
+        <Dialog.Content maxWidth="48rem" className="max-h-[90vh] overflow-y-auto relative">
+          <div className="flex justify-between items-start mb-4">
+            <Dialog.Title className="text-2xl font-bold text-blue-700">
+              {selectedPolicy?.title}
+            </Dialog.Title>
+            <Dialog.Close>
+              <Button
+                variant="ghost"
+                color="gray"
+                size="1"
+              >
+                &times;
+              </Button>
+            </Dialog.Close>
+          </div>
             <p className="text-md text-gray-600 mb-4">
-              年度: {selectedPolicy.year}
+              年度: {selectedPolicy?.year}
             </p>
 
             {/* ステータス表示 (詳細画面) */}
-            {selectedPolicy.status && (
+            {selectedPolicy?.status && (
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">
                   ステータス
                 </h3>
                 <span
-                  className={`text-md font-bold px-3 py-1 rounded-full ${getStatusClasses(selectedPolicy.status)}`}
+                  className={`text-md font-bold px-3 py-1 rounded-full ${getStatusClasses(selectedPolicy?.status || '')}`}
                 >
-                  {selectedPolicy.status}
+                  {selectedPolicy?.status}
                 </span>
               </div>
             )}
 
             {/* 予算を表示 */}
-            {selectedPolicy.budget !== undefined &&
-              selectedPolicy.budget !== null && (
+            {selectedPolicy?.budget !== undefined &&
+              selectedPolicy?.budget !== null && (
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     予算
                   </h3>
                   <p className="text-gray-700 text-lg font-bold">
-                    {selectedPolicy.budget.toLocaleString()} 円
+                    {selectedPolicy?.budget?.toLocaleString()} 円
                   </p>
                 </div>
               )}
@@ -1638,10 +1658,10 @@ function App() {
             {/* 詳細ダイアログ内の人気度表示 */}
             {(() => {
               const totalVotes =
-                (selectedPolicy.upvotes || 0) + (selectedPolicy.downvotes || 0);
+                (selectedPolicy?.upvotes || 0) + (selectedPolicy?.downvotes || 0);
               const popularity =
                 totalVotes > 0
-                  ? ((selectedPolicy.upvotes || 0) / totalVotes) * 100
+                  ? ((selectedPolicy?.upvotes || 0) / totalVotes) * 100
                   : 0;
               return (
                 <div className="mb-4">
@@ -1671,17 +1691,17 @@ function App() {
 
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">目的</h3>
-              <p className="text-gray-700">{selectedPolicy.purpose}</p>
+              <p className="text-gray-700">{selectedPolicy?.purpose}</p>
             </div>
 
             {/* 政策が解決したい問題点を表示 */}
-            {selectedPolicy.problems && selectedPolicy.problems.length > 0 && (
+            {selectedPolicy?.problems && selectedPolicy?.problems.length > 0 && (
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">
                   解決したい問題点
                 </h3>
                 <ul className="list-disc list-inside text-gray-700">
-                  {selectedPolicy.problems.map((problem) => (
+                  {selectedPolicy?.problems?.map((problem) => (
                     <li key={problem}>{problem}</li>
                   ))}
                 </ul>
@@ -1690,26 +1710,27 @@ function App() {
 
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">概要</h3>
-              <p className="text-gray-700">{selectedPolicy.overview}</p>
+              <p className="text-gray-700">{selectedPolicy?.overview}</p>
             </div>
 
             {/* 具体的計画の内容を表示 */}
-            {selectedPolicy.detailedPlan && (
+            {selectedPolicy?.detailedPlan && (
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">
                   具体的計画の内容
                 </h3>
-                <p className="text-gray-700">{selectedPolicy.detailedPlan}</p>
+                <p className="text-gray-700">{selectedPolicy?.detailedPlan}</p>
               </div>
             )}
 
             {/* LLMによる要約ボタンと表示エリア */}
             <div className="mb-4">
               <div className="flex items-center space-x-2 mb-2">
-                <button
-                  onClick={() => summarizePolicy(selectedPolicy)}
-                  type="button"
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-200 ease-in-out flex items-center"
+                <Button
+                  onClick={() => selectedPolicy && summarizePolicy(selectedPolicy)}
+                  variant="solid"
+                  color="purple"
+                  size="2"
                   disabled={isSummarizing}
                 >
                   {isSummarizing ? (
@@ -1738,17 +1759,18 @@ function App() {
                   ) : (
                     <>✨政策をさらに分かりやすく</>
                   )}
-                </button>
+                </Button>
                 {simplifiedPolicyText && (
-                  <button
-                    type="button"
+                  <Button
                     onClick={() =>
                       setShowSimplifiedSummary(!showSimplifiedSummary)
                     }
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-3 rounded-md shadow-sm transition duration-200 ease-in-out"
+                    variant="soft"
+                    color="gray"
+                    size="2"
                   >
                     {showSimplifiedSummary ? "要約を閉じる" : "要約を開く"}
-                  </button>
+                  </Button>
                 )}
               </div>
               {showSimplifiedSummary && simplifiedPolicyText && (
@@ -1762,40 +1784,40 @@ function App() {
               )}
             </div>
 
-            {selectedPolicy.benefits && selectedPolicy.benefits.length > 0 && (
+            {selectedPolicy?.benefits && selectedPolicy?.benefits.length > 0 && (
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-green-700 mb-2">
                   メリット
                 </h3>
                 <ul className="list-disc list-inside text-gray-700">
-                  {selectedPolicy.benefits.map((benefit) => (
+                  {selectedPolicy?.benefits?.map((benefit) => (
                     <li key={benefit}>{benefit}</li>
                   ))}
                 </ul>
               </div>
             )}
 
-            {selectedPolicy.drawbacks &&
-              selectedPolicy.drawbacks.length > 0 && (
+            {selectedPolicy?.drawbacks &&
+              selectedPolicy?.drawbacks.length > 0 && (
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold text-red-700 mb-2">
                     デメリット
                   </h3>
                   <ul className="list-disc list-inside text-gray-700">
-                    {selectedPolicy.drawbacks.map((drawback) => (
+                    {selectedPolicy?.drawbacks?.map((drawback) => (
                       <li key={drawback}>{drawback}</li>
                     ))}
                   </ul>
                 </div>
               )}
 
-            {selectedPolicy.keywords && selectedPolicy.keywords.length > 0 && (
+            {selectedPolicy?.keywords && selectedPolicy?.keywords.length > 0 && (
               <div className="mt-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">
                   関連キーワード
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {selectedPolicy.keywords.map((keyword) => (
+                  {selectedPolicy?.keywords?.map((keyword) => (
                     <span
                       key={keyword}
                       className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full"
@@ -1808,8 +1830,8 @@ function App() {
             )}
 
             {/* 政策に関するイベントをタイムライン形式で表示 */}
-            {selectedPolicy.relatedEvents &&
-              selectedPolicy.relatedEvents.length > 0 && (
+            {selectedPolicy?.relatedEvents &&
+              selectedPolicy?.relatedEvents.length > 0 && (
                 <div className="mt-4">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     政策に関するイベント
@@ -1817,7 +1839,7 @@ function App() {
                   <div className="relative border-l-2 border-blue-300 pl-6">
                     {" "}
                     {/* Vertical line */}
-                    {selectedPolicy.relatedEvents.map((event) => (
+                    {selectedPolicy?.relatedEvents?.map((event) => (
                       <div key={event} className="mb-4 last:mb-0">
                         <div className="absolute -left-2 top-0 mt-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white" />{" "}
                         {/* Node */}
@@ -1834,9 +1856,9 @@ function App() {
               <div className="space-y-4 mb-6 max-h-60 overflow-y-auto pr-2">
                 {" "}
                 {/* コメントリストのスクロール */}
-                {selectedPolicy.comments &&
-                selectedPolicy.comments.length > 0 ? (
-                  selectedPolicy.comments
+                {selectedPolicy?.comments &&
+                selectedPolicy?.comments.length > 0 ? (
+                  selectedPolicy?.comments
                     .slice()
                     .reverse()
                     .map(
@@ -1847,7 +1869,7 @@ function App() {
                           key={comment.id}
                           comment={comment}
                           onVoteComment={handleCommentVote}
-                          policyId={selectedPolicy.id}
+                          policyId={selectedPolicy?.id || ''}
                         />
                       ),
                     )
@@ -1860,13 +1882,12 @@ function App() {
 
               {/* コメント投稿フォーム */}
               <CommentForm
-                policyId={selectedPolicy.id}
+                policyId={selectedPolicy?.id || ''}
                 onAddComment={handleAddComment}
               />
             </div>
-          </div>
-        </div>
-      )}
+        </Dialog.Content>
+      </Dialog.Root>
 
       {/* フローティングアクションボタン (FAB) メニュー */}
       {activeTab === "policies" && ( // 政策一覧タブでのみFABを表示
@@ -1875,26 +1896,32 @@ function App() {
             {" "}
             {/* このdivがFABとメニューの親となり、相対的な位置決めを可能にする */}
             {/* FABボタン */}
-            <button
-              type="button"
+            <Button
               onClick={() => setShowFabMenu(!showFabMenu)}
-              className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-3xl font-bold transition duration-300 ease-in-out transform hover:scale-105"
+              variant="solid"
+              color="blue"
+              size="4"
+              radius="full"
+              className="w-14 h-14 shadow-xl text-3xl font-bold transition duration-300 ease-in-out transform hover:scale-105"
             >
               {showFabMenu ? "−" : "+"}
-            </button>
+            </Button>
             {/* メニュー項目 (FABボタンに対して絶対位置で配置) */}
             {showFabMenu && (
               <div className="absolute bottom-full right-0 mb-3 flex flex-col items-end space-y-3">
-                <button
-                  type="button"
+                <Button
                   onClick={() => {
                     setShowAddForm(true);
                     setShowFabMenu(false);
                   }}
-                  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-5 rounded-full shadow-lg transition duration-200 ease-in-out text-sm whitespace-nowrap"
+                  variant="solid"
+                  color="green"
+                  size="2"
+                  radius="full"
+                  className="shadow-lg text-sm whitespace-nowrap"
                 >
                   政策を追加
-                </button>
+                </Button>
                 <div className="bg-white rounded-full shadow-lg p-2">
                   <select
                     value={sortOrder}
@@ -1970,12 +1997,14 @@ const CommentForm = ({
           />
           <span className="ml-2">匿名で投稿する</span>
         </label>
-        <button
+        <Button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition duration-200 ease-in-out"
+          variant="solid"
+          color="blue"
+          size="2"
         >
           コメントを投稿
-        </button>
+        </Button>
       </div>
     </form>
   );
