@@ -82,11 +82,15 @@ describe("PolicyAddModal", () => {
     expect(
       screen.getByLabelText("解決したい問題点 (カンマ区切り)"),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("メリット (カンマ区切り)")).toBeInTheDocument();
+    expect(
+      screen.getByLabelText("メリット (カンマ区切り)"),
+    ).toBeInTheDocument();
     expect(
       screen.getByLabelText("デメリット (カンマ区切り)"),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("キーワード (カンマ区切り)")).toBeInTheDocument();
+    expect(
+      screen.getByLabelText("キーワード (カンマ区切り)"),
+    ).toBeInTheDocument();
     expect(
       screen.getByLabelText("政策に関するイベント (カンマ区切り)"),
     ).toBeInTheDocument();
@@ -103,7 +107,9 @@ describe("PolicyAddModal", () => {
     );
 
     const currentYear = new Date().getFullYear();
-    expect(screen.getByDisplayValue(currentYear.toString())).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue(currentYear.toString()),
+    ).toBeInTheDocument();
     expect(screen.getByDisplayValue("進行中")).toBeInTheDocument();
   });
 
@@ -137,14 +143,8 @@ describe("PolicyAddModal", () => {
 
     // Fill in required fields
     await user.type(screen.getByLabelText("政策タイトル"), "テスト政策");
-    await user.type(
-      screen.getByLabelText("政策の目的"),
-      "テストの目的",
-    );
-    await user.type(
-      screen.getByLabelText("政策の概要"),
-      "テストの概要",
-    );
+    await user.type(screen.getByLabelText("政策の目的"), "テストの目的");
+    await user.type(screen.getByLabelText("政策の概要"), "テストの概要");
 
     // Fill in optional fields
     await user.type(
@@ -193,14 +193,8 @@ describe("PolicyAddModal", () => {
 
     // Fill in required fields
     await user.type(screen.getByLabelText("政策タイトル"), "テスト政策");
-    await user.type(
-      screen.getByLabelText("政策の目的"),
-      "テストの目的",
-    );
-    await user.type(
-      screen.getByLabelText("政策の概要"),
-      "テストの概要",
-    );
+    await user.type(screen.getByLabelText("政策の目的"), "テストの目的");
+    await user.type(screen.getByLabelText("政策の概要"), "テストの概要");
 
     // Test comma-separated fields with extra spaces
     await user.type(
@@ -354,14 +348,8 @@ describe("PolicyAddModal", () => {
 
     // Fill required fields
     await user.type(screen.getByLabelText("政策タイトル"), "テスト政策");
-    await user.type(
-      screen.getByLabelText("政策の目的"),
-      "テストの目的",
-    );
-    await user.type(
-      screen.getByLabelText("政策の概要"),
-      "テストの概要",
-    );
+    await user.type(screen.getByLabelText("政策の目的"), "テストの目的");
+    await user.type(screen.getByLabelText("政策の概要"), "テストの概要");
 
     // Change status
     const statusSelect = screen.getByLabelText("ステータス");
@@ -395,6 +383,8 @@ describe("PolicyAddModal", () => {
     expect(screen.getByRole("button", { name: "×" })).toBeInTheDocument();
 
     // Check for submit button
-    expect(screen.getByRole("button", { name: "政策を保存" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "政策を保存" }),
+    ).toBeInTheDocument();
   });
 });

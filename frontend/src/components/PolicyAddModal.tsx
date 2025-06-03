@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@radix-ui/themes";
+import { Button, Dialog, TextField, TextArea } from "@radix-ui/themes";
 import { useState, type FormEvent } from "react";
 import type { NewPolicy } from "../types/policy";
 
@@ -130,13 +130,11 @@ export function PolicyAddModal({
               >
                 政策タイトル
               </label>
-              <input
-                type="text"
+              <TextField.Root
                 id="title"
                 name="title"
                 value={newPolicyData.title}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
             </div>
@@ -147,13 +145,12 @@ export function PolicyAddModal({
               >
                 年度
               </label>
-              <input
-                type="number"
+              <TextField.Root
                 id="year"
+                type="number"
                 name="year"
                 value={newPolicyData.year}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
             </div>
@@ -164,13 +161,12 @@ export function PolicyAddModal({
               >
                 政策の目的
               </label>
-              <textarea
+              <TextArea
                 id="purpose"
                 name="purpose"
                 value={newPolicyData.purpose}
                 onChange={handleFormChange}
                 rows={3}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
             </div>
@@ -181,13 +177,12 @@ export function PolicyAddModal({
               >
                 政策の概要
               </label>
-              <textarea
+              <TextArea
                 id="overview"
                 name="overview"
                 value={newPolicyData.overview}
                 onChange={handleFormChange}
                 rows={3}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
             </div>
@@ -198,13 +193,12 @@ export function PolicyAddModal({
               >
                 具体的計画の内容
               </label>
-              <textarea
+              <TextArea
                 id="detailedPlan"
                 name="detailedPlan"
                 value={newPolicyData.detailedPlan}
                 onChange={handleFormChange}
                 rows={3}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div className="md:col-span-2">
@@ -214,13 +208,11 @@ export function PolicyAddModal({
               >
                 解決したい問題点 (カンマ区切り)
               </label>
-              <input
-                type="text"
+              <TextField.Root
                 id="problems"
                 name="problems"
                 value={newPolicyData.problems}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div className="md:col-span-2">
@@ -230,13 +222,11 @@ export function PolicyAddModal({
               >
                 メリット (カンマ区切り)
               </label>
-              <input
-                type="text"
+              <TextField.Root
                 id="benefits"
                 name="benefits"
                 value={newPolicyData.benefits}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div className="md:col-span-2">
@@ -246,13 +236,11 @@ export function PolicyAddModal({
               >
                 デメリット (カンマ区切り)
               </label>
-              <input
-                type="text"
+              <TextField.Root
                 id="drawbacks"
                 name="drawbacks"
                 value={newPolicyData.drawbacks}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div className="md:col-span-2">
@@ -262,13 +250,11 @@ export function PolicyAddModal({
               >
                 キーワード (カンマ区切り)
               </label>
-              <input
-                type="text"
+              <TextField.Root
                 id="keywords"
                 name="keywords"
                 value={newPolicyData.keywords}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div className="md:col-span-2">
@@ -278,13 +264,11 @@ export function PolicyAddModal({
               >
                 政策に関するイベント (カンマ区切り)
               </label>
-              <input
-                type="text"
+              <TextField.Root
                 id="relatedEvents"
                 name="relatedEvents"
                 value={newPolicyData.relatedEvents}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div className="md:col-span-2">
@@ -294,13 +278,12 @@ export function PolicyAddModal({
               >
                 予算 (円)
               </label>
-              <input
-                type="number"
+              <TextField.Root
                 id="budget"
+                type="number"
                 name="budget"
                 value={newPolicyData.budget}
                 onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
             <div className="md:col-span-2">
