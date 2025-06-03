@@ -1,4 +1,4 @@
-import { Button } from "@radix-ui/themes";
+import { TextField, Tabs } from "@radix-ui/themes";
 
 interface HeaderProps {
   searchTerm: string;
@@ -7,55 +7,142 @@ interface HeaderProps {
   setActiveTab: (tab: "policies" | "finance") => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
+export function Header({
   searchTerm,
   setSearchTerm,
   activeTab,
   setActiveTab,
-}) => {
+}: HeaderProps) {
   return (
-    <header className="fixed top-0 left-0 z-10 w-full rounded-b-lg bg-blue-600 p-4 text-white shadow-md">
-      <div className="container mx-auto flex flex-col items-center justify-between sm:flex-row">
-        <h1 className="mb-2 font-bold text-2xl sm:mb-0">市政の可視化アプリ</h1>
-        <div className="flex w-full items-center space-x-2 sm:w-auto">
-          <input
-            type="text"
+    <header
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
+        backgroundColor: "var(--blue-9)",
+        color: "white",
+        padding: "1rem",
+        borderBottomLeftRadius: "8px",
+        borderBottomRightRadius: "8px",
+        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1rem",
+        }}
+      >
+        {/* 左側: タイトルとタブ */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "2rem",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+              margin: 0,
+            }}
+          >
+            市政の可視化アプリ
+          </h1>
+
+          {/* タブナビゲーション */}
+          <Tabs.Root
+            value={activeTab}
+            onValueChange={(value) =>
+              setActiveTab(value as "policies" | "finance")
+            }
+            activationMode="manual"
+          >
+            <Tabs.List
+              style={{
+                display: "flex",
+                gap: "0.5rem",
+              }}
+            >
+              <Tabs.Trigger
+                value="policies"
+                style={{
+                  padding: "0.75rem 1rem",
+                  backgroundColor: "transparent",
+                  border: "none",
+                  borderBottom:
+                    activeTab === "policies"
+                      ? "2px solid white"
+                      : "2px solid transparent",
+                  color: activeTab === "policies" ? "white" : "var(--blue-3)",
+                  fontSize: "0.875rem",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseOver={(e) => {
+                  if (activeTab !== "policies") {
+                    (e.target as HTMLElement).style.color = "white";
+                  }
+                }}
+                onMouseOut={(e) => {
+                  if (activeTab !== "policies") {
+                    (e.target as HTMLElement).style.color = "var(--blue-3)";
+                  }
+                }}
+              >
+                政策一覧
+              </Tabs.Trigger>
+              <Tabs.Trigger
+                value="finance"
+                style={{
+                  padding: "0.75rem 1rem",
+                  backgroundColor: "transparent",
+                  border: "none",
+                  borderBottom:
+                    activeTab === "finance"
+                      ? "2px solid white"
+                      : "2px solid transparent",
+                  color: activeTab === "finance" ? "white" : "var(--blue-3)",
+                  fontSize: "0.875rem",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                }}
+                onMouseOver={(e) => {
+                  if (activeTab !== "finance") {
+                    (e.target as HTMLElement).style.color = "white";
+                  }
+                }}
+                onMouseOut={(e) => {
+                  if (activeTab !== "finance") {
+                    (e.target as HTMLElement).style.color = "var(--blue-3)";
+                  }
+                }}
+              >
+                市政の収支
+              </Tabs.Trigger>
+            </Tabs.List>
+          </Tabs.Root>
+        </div>
+
+        {/* 右側: 検索欄 */}
+        <div style={{ width: "16rem" }}>
+          <TextField.Root
             placeholder="キーワードで政策を検索..."
-            className="w-full rounded-md border border-gray-300 p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 sm:w-64"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            size="2"
           />
         </div>
       </div>
-      {/* タブナビゲーション */}
-      <div className="container mx-auto mt-4 flex border-blue-500 border-b">
-        <Button
-          onClick={() => setActiveTab("policies")}
-          variant={activeTab === "policies" ? "solid" : "ghost"}
-          color="gray"
-          size="2"
-          className={
-            activeTab === "policies"
-              ? "border-white border-b-2 text-white"
-              : "text-blue-200 hover:text-white"
-          }
-        >
-          政策一覧
-        </Button>
-        <Button
-          onClick={() => setActiveTab("finance")}
-          variant={activeTab === "finance" ? "solid" : "ghost"}
-          color="gray"
-          size="2"
-          className={
-            activeTab === "finance"
-              ? "border-white border-b-2 text-white"
-              : "text-blue-200 hover:text-white"
-          }
-        >
-          市政の収支
-        </Button>
-      </div>
     </header>
   );
-};
+}

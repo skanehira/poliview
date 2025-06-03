@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header";
 import "@testing-library/jest-dom";
@@ -55,111 +56,100 @@ describe("Header", () => {
   it("renders both tab buttons", () => {
     render(<Header {...defaultProps} />);
 
-    expect(screen.getByText("政策一覧")).toBeInTheDocument();
-    expect(screen.getByText("市政の収支")).toBeInTheDocument();
+    expect(screen.getAllByText("政策一覧")).toHaveLength(2);
+    expect(screen.getAllByText("市政の収支")).toHaveLength(2);
   });
 
   it('shows policies tab as active when activeTab is "policies"', () => {
     const props = { ...defaultProps, activeTab: "policies" as const };
     render(<Header {...props} />);
 
-    const policiesButton = screen.getByText("政策一覧");
-    const financeButton = screen.getByText("市政の収支");
+    const tabs = screen.getAllByRole("tab");
+    const policiesButton = tabs[0];
+    const financeButton = tabs[1];
 
-    // アクティブなタブのスタイルクラスを確認
-    expect(policiesButton).toHaveClass(
-      "border-b-2",
-      "border-white",
-      "text-white",
-    );
-    expect(financeButton).toHaveClass("text-blue-200", "hover:text-white");
+    // Radix UIのタブコンポーネントの状態を確認
+    expect(policiesButton).toHaveAttribute("aria-selected", "true");
+    expect(financeButton).toHaveAttribute("aria-selected", "false");
   });
 
   it('shows finance tab as active when activeTab is "finance"', () => {
     const props = { ...defaultProps, activeTab: "finance" as const };
     render(<Header {...props} />);
 
-    const policiesButton = screen.getByText("政策一覧");
-    const financeButton = screen.getByText("市政の収支");
+    const tabs = screen.getAllByRole("tab");
+    const policiesButton = tabs[0];
+    const financeButton = tabs[1];
 
-    // アクティブなタブのスタイルクラスを確認
-    expect(financeButton).toHaveClass(
-      "border-b-2",
-      "border-white",
-      "text-white",
-    );
-    expect(policiesButton).toHaveClass("text-blue-200", "hover:text-white");
+    // Radix UIのタブコンポーネントの状態を確認
+    expect(financeButton).toHaveAttribute("aria-selected", "true");
+    expect(policiesButton).toHaveAttribute("aria-selected", "false");
   });
 
-  it('calls setActiveTab with "policies" when policies tab is clicked', () => {
-    render(<Header {...defaultProps} />);
+  it('calls setActiveTab with "policies" when policies tab is clicked', async () => {
+    const user = userEvent.setup();
+    const mockSetActiveTab = vi.fn();
+    const props = {
+      ...defaultProps,
+      activeTab: "finance" as const,
+      setActiveTab: mockSetActiveTab,
+    };
+    render(<Header {...props} />);
 
-    const policiesButton = screen.getByText("政策一覧");
-    fireEvent.click(policiesButton);
+    const policiesButton = screen.getAllByText("政策一覧")[0];
+    await user.click(policiesButton);
 
-    expect(defaultProps.setActiveTab).toHaveBeenCalledWith("policies");
+    expect(mockSetActiveTab).toHaveBeenCalledWith("policies");
   });
 
-  it('calls setActiveTab with "finance" when finance tab is clicked', () => {
-    render(<Header {...defaultProps} />);
+  it('calls setActiveTab with "finance" when finance tab is clicked', async () => {
+    const user = userEvent.setup();
+    const mockSetActiveTab = vi.fn();
+    const props = {
+      ...defaultProps,
+      activeTab: "policies" as const,
+      setActiveTab: mockSetActiveTab,
+    };
+    render(<Header {...props} />);
 
-    const financeButton = screen.getByText("市政の収支");
-    fireEvent.click(financeButton);
+    const financeButton = screen.getAllByText("市政の収支")[0];
+    await user.click(financeButton);
 
-    expect(defaultProps.setActiveTab).toHaveBeenCalledWith("finance");
+    expect(mockSetActiveTab).toHaveBeenCalledWith("finance");
   });
 
-  it("has proper header styling classes", () => {
+  it("has proper header structure and accessibility", () => {
     render(<Header {...defaultProps} />);
 
     const header = screen.getByRole("banner");
-    expect(header).toHaveClass(
-      "fixed",
-      "top-0",
-      "left-0",
-      "w-full",
-      "bg-blue-600",
-      "text-white",
-      "p-4",
-      "shadow-md",
-      "rounded-b-lg",
-      "z-10",
-    );
+    expect(header).toBeInTheDocument();
+
+    // ヘッダーが固定位置にあることを確認
+    expect(header).toHaveStyle({ position: "fixed" });
   });
 
-  it("has responsive layout classes", () => {
+  it("has proper tab navigation accessibility", () => {
     render(<Header {...defaultProps} />);
 
-    // コンテナクラスの確認
-    const container = screen.getByText("市政の可視化アプリ").closest("div");
-    expect(container).toHaveClass(
-      "container",
-      "mx-auto",
-      "flex",
-      "flex-col",
-      "sm:flex-row",
-      "justify-between",
-      "items-center",
-    );
+    // タブリストが存在することを確認
+    const tablist = screen.getByRole("tablist");
+    expect(tablist).toBeInTheDocument();
+
+    // 2つのタブが存在することを確認
+    const tabs = screen.getAllByRole("tab");
+    expect(tabs).toHaveLength(2);
   });
 
-  it("search input has proper styling and focus states", () => {
+  it("search input is properly accessible", () => {
     render(<Header {...defaultProps} />);
 
     const searchInput = screen.getByPlaceholderText(
       "キーワードで政策を検索...",
     );
-    expect(searchInput).toHaveClass(
-      "p-2",
-      "rounded-md",
-      "border",
-      "border-gray-300",
-      "text-gray-800",
-      "focus:outline-none",
-      "focus:ring-2",
-      "focus:ring-blue-400",
-      "w-full",
-      "sm:w-64",
-    );
+
+    // 入力フィールドが適切にアクセス可能であることを確認
+    expect(searchInput).toBeInTheDocument();
+    // Radix UI TextFieldでは、内部のinput要素に対してチェックする
+    expect(searchInput).toHaveRole("textbox");
   });
 });
