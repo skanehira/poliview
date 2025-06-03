@@ -1,4 +1,12 @@
-import { Button, Dialog, TextField, TextArea } from "@radix-ui/themes";
+import {
+  Button,
+  Dialog,
+  TextField,
+  TextArea,
+  Flex,
+  Grid,
+  Text,
+} from "@radix-ui/themes";
 import { useState, type FormEvent } from "react";
 import type { NewPolicy } from "../types/policy";
 
@@ -108,7 +116,7 @@ export function PolicyAddModal({
           maxWidth="48rem"
           className="relative max-h-[90vh] overflow-y-auto"
         >
-          <div className="flex justify-between items-start mb-4">
+          <Flex justify="between" align="start" mb="4">
             <Dialog.Title className="text-xl font-semibold text-blue-700">
               新しい政策を追加
             </Dialog.Title>
@@ -117,200 +125,173 @@ export function PolicyAddModal({
                 &times;
               </Button>
             </Dialog.Close>
-          </div>
+          </Flex>
 
-          <form
-            onSubmit={handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                政策タイトル
-              </label>
-              <TextField.Root
-                id="title"
-                name="title"
-                value={newPolicyData.title}
-                onChange={handleFormChange}
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="year"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                年度
-              </label>
-              <TextField.Root
-                id="year"
-                type="number"
-                name="year"
-                value={newPolicyData.year}
-                onChange={handleFormChange}
-                required
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="purpose"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                政策の目的
-              </label>
-              <TextArea
-                id="purpose"
-                name="purpose"
-                value={newPolicyData.purpose}
-                onChange={handleFormChange}
-                rows={3}
-                required
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="overview"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                政策の概要
-              </label>
-              <TextArea
-                id="overview"
-                name="overview"
-                value={newPolicyData.overview}
-                onChange={handleFormChange}
-                rows={3}
-                required
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="detailedPlan"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                具体的計画の内容
-              </label>
-              <TextArea
-                id="detailedPlan"
-                name="detailedPlan"
-                value={newPolicyData.detailedPlan}
-                onChange={handleFormChange}
-                rows={3}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="problems"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                解決したい問題点 (カンマ区切り)
-              </label>
-              <TextField.Root
-                id="problems"
-                name="problems"
-                value={newPolicyData.problems}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="benefits"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                メリット (カンマ区切り)
-              </label>
-              <TextField.Root
-                id="benefits"
-                name="benefits"
-                value={newPolicyData.benefits}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="drawbacks"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                デメリット (カンマ区切り)
-              </label>
-              <TextField.Root
-                id="drawbacks"
-                name="drawbacks"
-                value={newPolicyData.drawbacks}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="keywords"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                キーワード (カンマ区切り)
-              </label>
-              <TextField.Root
-                id="keywords"
-                name="keywords"
-                value={newPolicyData.keywords}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="relatedEvents"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                政策に関するイベント (カンマ区切り)
-              </label>
-              <TextField.Root
-                id="relatedEvents"
-                name="relatedEvents"
-                value={newPolicyData.relatedEvents}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="budget"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                予算 (円)
-              </label>
-              <TextField.Root
-                id="budget"
-                type="number"
-                name="budget"
-                value={newPolicyData.budget}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                ステータス
-              </label>
-              <select
-                id="status"
-                name="status"
-                value={newPolicyData.status}
-                onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              >
-                <option value="進行中">進行中</option>
-                <option value="完了">完了</option>
-                <option value="中止">中止</option>
-              </select>
-            </div>
-            <div className="md:col-span-2 flex justify-end">
-              <Button type="submit" variant="solid" color="blue" size="3">
-                政策を保存
-              </Button>
-            </div>
+          <form onSubmit={handleSubmit}>
+            <Grid columns={{ initial: "1", md: "2" }} gap="4">
+              <Flex direction="column" gap="1">
+                <Text as="label" htmlFor="title" size="2" weight="medium">
+                  政策タイトル
+                </Text>
+                <TextField.Root
+                  id="title"
+                  name="title"
+                  value={newPolicyData.title}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Flex>
+              <Flex direction="column" gap="1">
+                <Text as="label" htmlFor="year" size="2" weight="medium">
+                  年度
+                </Text>
+                <TextField.Root
+                  id="year"
+                  type="number"
+                  name="year"
+                  value={newPolicyData.year}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="purpose" size="2" weight="medium">
+                  政策の目的
+                </Text>
+                <TextArea
+                  id="purpose"
+                  name="purpose"
+                  value={newPolicyData.purpose}
+                  onChange={handleFormChange}
+                  rows={3}
+                  required
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="overview" size="2" weight="medium">
+                  政策の概要
+                </Text>
+                <TextArea
+                  id="overview"
+                  name="overview"
+                  value={newPolicyData.overview}
+                  onChange={handleFormChange}
+                  rows={3}
+                  required
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text
+                  as="label"
+                  htmlFor="detailedPlan"
+                  size="2"
+                  weight="medium"
+                >
+                  具体的計画の内容
+                </Text>
+                <TextArea
+                  id="detailedPlan"
+                  name="detailedPlan"
+                  value={newPolicyData.detailedPlan}
+                  onChange={handleFormChange}
+                  rows={3}
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="problems" size="2" weight="medium">
+                  解決したい問題点 (カンマ区切り)
+                </Text>
+                <TextField.Root
+                  id="problems"
+                  name="problems"
+                  value={newPolicyData.problems}
+                  onChange={handleFormChange}
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="benefits" size="2" weight="medium">
+                  メリット (カンマ区切り)
+                </Text>
+                <TextField.Root
+                  id="benefits"
+                  name="benefits"
+                  value={newPolicyData.benefits}
+                  onChange={handleFormChange}
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="drawbacks" size="2" weight="medium">
+                  デメリット (カンマ区切り)
+                </Text>
+                <TextField.Root
+                  id="drawbacks"
+                  name="drawbacks"
+                  value={newPolicyData.drawbacks}
+                  onChange={handleFormChange}
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="keywords" size="2" weight="medium">
+                  キーワード (カンマ区切り)
+                </Text>
+                <TextField.Root
+                  id="keywords"
+                  name="keywords"
+                  value={newPolicyData.keywords}
+                  onChange={handleFormChange}
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text
+                  as="label"
+                  htmlFor="relatedEvents"
+                  size="2"
+                  weight="medium"
+                >
+                  政策に関するイベント (カンマ区切り)
+                </Text>
+                <TextField.Root
+                  id="relatedEvents"
+                  name="relatedEvents"
+                  value={newPolicyData.relatedEvents}
+                  onChange={handleFormChange}
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="budget" size="2" weight="medium">
+                  予算 (円)
+                </Text>
+                <TextField.Root
+                  id="budget"
+                  type="number"
+                  name="budget"
+                  value={newPolicyData.budget}
+                  onChange={handleFormChange}
+                />
+              </Flex>
+              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
+                <Text as="label" htmlFor="status" size="2" weight="medium">
+                  ステータス
+                </Text>
+                <select
+                  id="status"
+                  name="status"
+                  value={newPolicyData.status}
+                  onChange={handleFormChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                >
+                  <option value="進行中">進行中</option>
+                  <option value="完了">完了</option>
+                  <option value="中止">中止</option>
+                </select>
+              </Flex>
+              <Flex justify="end" style={{ gridColumn: "1 / -1" }}>
+                <Button type="submit" variant="solid" color="blue" size="3">
+                  政策を保存
+                </Button>
+              </Flex>
+            </Grid>
           </form>
         </Dialog.Content>
       </Dialog.Root>
@@ -328,7 +309,7 @@ export function PolicyAddModal({
             <Dialog.Description className="text-gray-700 mb-6">
               未保存の変更があります。破棄して閉じますか？
             </Dialog.Description>
-            <div className="flex justify-center space-x-4">
+            <Flex justify="center" gap="4">
               <Button
                 onClick={handleConfirmDiscard}
                 color="red"
@@ -345,7 +326,7 @@ export function PolicyAddModal({
               >
                 いいえ
               </Button>
-            </div>
+            </Flex>
           </Dialog.Content>
         </Dialog.Root>
       )}

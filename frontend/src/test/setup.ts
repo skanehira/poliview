@@ -1,7 +1,9 @@
 import "@testing-library/jest-dom";
 
 // Mock ResizeObserver for Recharts
-(globalThis as any).ResizeObserver = class ResizeObserver {
+(
+  globalThis as unknown as { ResizeObserver: typeof ResizeObserver }
+).ResizeObserver = class ResizeObserver {
   constructor(callback: ResizeObserverCallback) {
     this.callback = callback;
   }
