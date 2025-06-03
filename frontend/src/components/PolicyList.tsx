@@ -1,3 +1,4 @@
+import { Grid, Text } from "@radix-ui/themes";
 import type { Policy } from "../types/policy";
 import { PolicyCard } from "./PolicyCard";
 
@@ -38,22 +39,42 @@ export function PolicyList({
 
   if (filteredPolicies.length === 0 && searchTerm !== "") {
     return (
-      <p className="mt-8 text-center text-gray-600 text-lg">
+      <Text
+        size="4"
+        color="gray"
+        style={{
+          display: "block",
+          textAlign: "center",
+          marginTop: "2rem",
+        }}
+      >
         「{searchTerm}」に一致する政策は見つかりませんでした。
-      </p>
+      </Text>
     );
   }
 
   if (filteredPolicies.length === 0 && searchTerm === "") {
     return (
-      <p className="mt-8 text-center text-gray-600 text-lg">
+      <Text
+        size="4"
+        color="gray"
+        style={{
+          display: "block",
+          textAlign: "center",
+          marginTop: "2rem",
+        }}
+      >
         現在、登録されている政策はありません。ダミーデータが自動的に読み込まれます。
-      </p>
+      </Text>
     );
   }
 
   return (
-    <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <Grid
+      columns={{ initial: "1", sm: "2", lg: "3" }}
+      gap="6"
+      style={{ marginTop: "1rem" }}
+    >
       {filteredPolicies.map((policy) => (
         <PolicyCard
           key={policy.id}
@@ -63,6 +84,6 @@ export function PolicyList({
           getStatusClasses={getStatusClasses}
         />
       ))}
-    </div>
+    </Grid>
   );
 }

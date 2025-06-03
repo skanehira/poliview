@@ -1,8 +1,10 @@
+import * as Form from "@radix-ui/react-form";
 import {
   Button,
   Dialog,
   Flex,
   Grid,
+  Select,
   Text,
   TextArea,
   TextField,
@@ -130,172 +132,249 @@ export function PolicyAddModal({
             </Dialog.Close>
           </Flex>
 
-          <form onSubmit={handleSubmit}>
+          <Form.Root onSubmit={handleSubmit}>
             <Grid columns={{ initial: "1", md: "2" }} gap="4">
-              <Flex direction="column" gap="1">
-                <Text as="label" htmlFor="title" size="2" weight="medium">
-                  政策タイトル
-                </Text>
-                <TextField.Root
-                  id="title"
-                  name="title"
-                  value={newPolicyData.title}
-                  onChange={handleFormChange}
-                  required
-                />
-              </Flex>
-              <Flex direction="column" gap="1">
-                <Text as="label" htmlFor="year" size="2" weight="medium">
-                  年度
-                </Text>
-                <TextField.Root
-                  id="year"
-                  type="number"
-                  name="year"
-                  value={newPolicyData.year}
-                  onChange={handleFormChange}
-                  required
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="purpose" size="2" weight="medium">
-                  政策の目的
-                </Text>
-                <TextArea
-                  id="purpose"
-                  name="purpose"
-                  value={newPolicyData.purpose}
-                  onChange={handleFormChange}
-                  rows={3}
-                  required
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="overview" size="2" weight="medium">
-                  政策の概要
-                </Text>
-                <TextArea
-                  id="overview"
-                  name="overview"
-                  value={newPolicyData.overview}
-                  onChange={handleFormChange}
-                  rows={3}
-                  required
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text
-                  as="label"
-                  htmlFor="detailedPlan"
-                  size="2"
-                  weight="medium"
-                >
-                  具体的計画の内容
-                </Text>
-                <TextArea
-                  id="detailedPlan"
-                  name="detailedPlan"
-                  value={newPolicyData.detailedPlan}
-                  onChange={handleFormChange}
-                  rows={3}
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="problems" size="2" weight="medium">
-                  解決したい問題点 (カンマ区切り)
-                </Text>
-                <TextField.Root
-                  id="problems"
-                  name="problems"
-                  value={newPolicyData.problems}
-                  onChange={handleFormChange}
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="benefits" size="2" weight="medium">
-                  メリット (カンマ区切り)
-                </Text>
-                <TextField.Root
-                  id="benefits"
-                  name="benefits"
-                  value={newPolicyData.benefits}
-                  onChange={handleFormChange}
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="drawbacks" size="2" weight="medium">
-                  デメリット (カンマ区切り)
-                </Text>
-                <TextField.Root
-                  id="drawbacks"
-                  name="drawbacks"
-                  value={newPolicyData.drawbacks}
-                  onChange={handleFormChange}
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="keywords" size="2" weight="medium">
-                  キーワード (カンマ区切り)
-                </Text>
-                <TextField.Root
-                  id="keywords"
-                  name="keywords"
-                  value={newPolicyData.keywords}
-                  onChange={handleFormChange}
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text
-                  as="label"
-                  htmlFor="relatedEvents"
-                  size="2"
-                  weight="medium"
-                >
-                  政策に関するイベント (カンマ区切り)
-                </Text>
-                <TextField.Root
-                  id="relatedEvents"
-                  name="relatedEvents"
-                  value={newPolicyData.relatedEvents}
-                  onChange={handleFormChange}
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="budget" size="2" weight="medium">
-                  予算 (円)
-                </Text>
-                <TextField.Root
-                  id="budget"
-                  type="number"
-                  name="budget"
-                  value={newPolicyData.budget}
-                  onChange={handleFormChange}
-                />
-              </Flex>
-              <Flex direction="column" gap="1" style={{ gridColumn: "1 / -1" }}>
-                <Text as="label" htmlFor="status" size="2" weight="medium">
-                  ステータス
-                </Text>
-                <select
-                  id="status"
-                  name="status"
-                  value={newPolicyData.status}
-                  onChange={handleFormChange}
-                  className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  required
-                >
-                  <option value="進行中">進行中</option>
-                  <option value="完了">完了</option>
-                  <option value="中止">中止</option>
-                </select>
-              </Flex>
+              <Form.Field name="title">
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      政策タイトル
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="title"
+                      value={newPolicyData.title}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Control>
+                  <Form.Message match="valueMissing">
+                    <Text size="1" color="red">
+                      政策タイトルを入力してください
+                    </Text>
+                  </Form.Message>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="year">
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      年度
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="year"
+                      type="number"
+                      value={newPolicyData.year}
+                      onChange={handleFormChange}
+                      required
+                    />
+                  </Form.Control>
+                  <Form.Message match="valueMissing">
+                    <Text size="1" color="red">
+                      年度を入力してください
+                    </Text>
+                  </Form.Message>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="purpose" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      政策の目的
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextArea
+                      name="purpose"
+                      value={newPolicyData.purpose}
+                      onChange={handleFormChange}
+                      rows={3}
+                      required
+                    />
+                  </Form.Control>
+                  <Form.Message match="valueMissing">
+                    <Text size="1" color="red">
+                      政策の目的を入力してください
+                    </Text>
+                  </Form.Message>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="overview" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      政策の概要
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextArea
+                      name="overview"
+                      value={newPolicyData.overview}
+                      onChange={handleFormChange}
+                      rows={3}
+                      required
+                    />
+                  </Form.Control>
+                  <Form.Message match="valueMissing">
+                    <Text size="1" color="red">
+                      政策の概要を入力してください
+                    </Text>
+                  </Form.Message>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="detailedPlan" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      具体的計画の内容
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextArea
+                      name="detailedPlan"
+                      value={newPolicyData.detailedPlan}
+                      onChange={handleFormChange}
+                      rows={3}
+                    />
+                  </Form.Control>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="problems" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      解決したい問題点 (カンマ区切り)
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="problems"
+                      value={newPolicyData.problems}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Control>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="benefits" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      メリット (カンマ区切り)
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="benefits"
+                      value={newPolicyData.benefits}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Control>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="drawbacks" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      デメリット (カンマ区切り)
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="drawbacks"
+                      value={newPolicyData.drawbacks}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Control>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="keywords" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      キーワード (カンマ区切り)
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="keywords"
+                      value={newPolicyData.keywords}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Control>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="relatedEvents" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      政策に関するイベント (カンマ区切り)
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="relatedEvents"
+                      value={newPolicyData.relatedEvents}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Control>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="budget" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      予算 (円)
+                    </Text>
+                  </Form.Label>
+                  <Form.Control asChild>
+                    <TextField.Root
+                      name="budget"
+                      type="number"
+                      value={newPolicyData.budget}
+                      onChange={handleFormChange}
+                    />
+                  </Form.Control>
+                </Flex>
+              </Form.Field>
+              <Form.Field name="status" style={{ gridColumn: "1 / -1" }}>
+                <Flex direction="column" gap="1">
+                  <Form.Label asChild>
+                    <Text size="2" weight="medium">
+                      ステータス
+                    </Text>
+                  </Form.Label>
+                  <Select.Root
+                    value={newPolicyData.status}
+                    onValueChange={(value) =>
+                      setNewPolicyData((prev) => ({ ...prev, status: value }))
+                    }
+                  >
+                    <Select.Trigger style={{ width: "100%" }} />
+                    <Select.Content>
+                      <Select.Item value="進行中">進行中</Select.Item>
+                      <Select.Item value="完了">完了</Select.Item>
+                      <Select.Item value="中止">中止</Select.Item>
+                    </Select.Content>
+                  </Select.Root>
+                  <Form.Message match="valueMissing">
+                    <Text size="1" color="red">
+                      ステータスを選択してください
+                    </Text>
+                  </Form.Message>
+                </Flex>
+              </Form.Field>
               <Flex justify="end" style={{ gridColumn: "1 / -1" }}>
-                <Button type="submit" variant="solid" color="blue" size="3">
-                  政策を保存
-                </Button>
+                <Form.Submit asChild>
+                  <Button variant="solid" color="blue" size="3">
+                    政策を保存
+                  </Button>
+                </Form.Submit>
               </Flex>
             </Grid>
-          </form>
+          </Form.Root>
         </Dialog.Content>
       </Dialog.Root>
 
