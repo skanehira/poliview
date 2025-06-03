@@ -1,4 +1,4 @@
-import { Button } from "@radix-ui/themes";
+import { Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
 import type { Policy } from "../types/policy";
 
@@ -24,8 +24,8 @@ export function PolicySummarySection({
   }
 
   return (
-    <div className="mb-4">
-      <div className="mb-2 flex items-center space-x-2">
+    <Box mb="4">
+      <Flex align="center" gap="2" mb="2">
         <Button
           onClick={() => onSummarizePolicy(policy)}
           variant="solid"
@@ -34,32 +34,40 @@ export function PolicySummarySection({
           disabled={isSummarizing}
         >
           {isSummarizing ? (
-            <>
-              <svg
-                className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
+            <Flex align="center" gap="2">
+              <Box
+                style={{
+                  animation: "spin 1s linear infinite",
+                  width: "1.25rem",
+                  height: "1.25rem",
+                }}
               >
-                <title>Loading...</title>
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              要約中...
-            </>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  style={{ width: "100%", height: "100%" }}
+                >
+                  <title>読み込み中</title>
+                  <circle
+                    style={{ opacity: 0.25 }}
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    style={{ opacity: 0.75 }}
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+              </Box>
+              <Text>要約中...</Text>
+            </Flex>
           ) : (
-            <>✨政策をさらに分かりやすく</>
+            <Text>✨政策をさらに分かりやすく</Text>
           )}
         </Button>
         {simplifiedPolicyText && onToggleSimplifiedSummary && (
@@ -72,15 +80,26 @@ export function PolicySummarySection({
             {showSimplifiedSummary ? "要約を閉じる" : "要約を開く"}
           </Button>
         )}
-      </div>
+      </Flex>
       {showSimplifiedSummary && simplifiedPolicyText && (
-        <div className="mt-2 rounded-lg border border-purple-200 bg-purple-50 p-4">
-          <h4 className="mb-2 font-semibold text-md text-purple-800">
+        <Card
+          variant="surface"
+          style={{
+            marginTop: "0.5rem",
+            backgroundColor: "var(--purple-3)",
+            borderColor: "var(--purple-6)",
+            borderWidth: "1px",
+            borderStyle: "solid",
+          }}
+        >
+          <Heading size="3" mb="2" style={{ color: "var(--purple-11)" }}>
             高校生向け要約:
-          </h4>
-          <ReactMarkdown>{simplifiedPolicyText}</ReactMarkdown>
-        </div>
+          </Heading>
+          <Box>
+            <ReactMarkdown>{simplifiedPolicyText}</ReactMarkdown>
+          </Box>
+        </Card>
       )}
-    </div>
+    </Box>
   );
 }

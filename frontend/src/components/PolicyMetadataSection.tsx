@@ -1,3 +1,4 @@
+import { Badge, Box, Flex, Heading, Progress, Text } from "@radix-ui/themes";
 import type { Policy } from "../types/policy";
 
 interface PolicyMetadataSectionProps {
@@ -5,46 +6,54 @@ interface PolicyMetadataSectionProps {
 }
 
 export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
-  // ステータスに応じたスタイルを返すヘルパー関数
-  const getStatusClasses = (status: string) => {
+  // ステータスに応じたカラーを返すヘルパー関数
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "完了":
-        return "bg-green-100 text-green-800";
+        return "green";
       case "進行中":
-        return "bg-blue-100 text-blue-800";
+        return "blue";
       case "中止":
-        return "bg-red-100 text-red-800";
+        return "red";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "gray";
     }
   };
 
   return (
     <>
-      <p className="mb-4 text-gray-600 text-md">年度: {policy.year}</p>
+      <Text size="3" color="gray" mb="4">
+        年度: {policy.year}
+      </Text>
 
       {/* ステータス表示 */}
       {policy.status && (
-        <div className="mb-4">
-          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
+        <Box mb="4">
+          <Heading size="4" mb="2">
             ステータス
-          </h3>
-          <span
-            className={`rounded-full px-3 py-1 font-bold text-md ${getStatusClasses(policy.status)}`}
+          </Heading>
+          <Badge
+            size="2"
+            color={
+              getStatusColor(policy.status) as "blue" | "green" | "red" | "gray"
+            }
+            variant="soft"
           >
             {policy.status}
-          </span>
-        </div>
+          </Badge>
+        </Box>
       )}
 
       {/* 予算表示 */}
       {policy.budget !== undefined && policy.budget !== null && (
-        <div className="mb-4">
-          <h3 className="mb-2 font-semibold text-gray-800 text-lg">予算</h3>
-          <p className="font-bold text-gray-700 text-lg">
+        <Box mb="4">
+          <Heading size="4" mb="2">
+            予算
+          </Heading>
+          <Text size="4" weight="bold">
             {policy.budget.toLocaleString()} 円
-          </p>
-        </div>
+          </Text>
+        </Box>
       )}
 
       {/* 人気度表示 */}
@@ -52,74 +61,79 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
         const totalVotes = (policy.upvotes || 0) + (policy.downvotes || 0);
         const popularity =
           totalVotes > 0 ? ((policy.upvotes || 0) / totalVotes) * 100 : 0;
+        const popularityColor =
+          popularity >= 70 ? "green" : popularity >= 40 ? "yellow" : "red";
         return (
-          <div className="mb-4">
-            <h3 className="mb-2 font-semibold text-gray-800 text-lg">人気度</h3>
+          <Box mb="4">
+            <Heading size="4" mb="2">
+              人気度
+            </Heading>
             {popularity !== null ? (
-              <span
-                className={`font-bold text-md ${
-                  popularity >= 70
-                    ? "text-green-600"
-                    : popularity >= 40
-                      ? "text-yellow-600"
-                      : "text-red-600"
-                }`}
+              <Text
+                size="3"
+                weight="bold"
+                color={popularityColor as "green" | "yellow" | "red"}
               >
                 {popularity.toFixed(0)}%
-              </span>
+              </Text>
             ) : (
-              <span className="font-semibold text-gray-500 text-md">
+              <Text size="3" weight="medium" color="gray">
                 評価なし
-              </span>
+              </Text>
             )}
-            <div className="mt-2 h-2.5 w-full rounded-full bg-gray-200">
-              <div
-                className={`h-2.5 rounded-full ${
-                  popularity >= 70
-                    ? "bg-green-500"
-                    : popularity >= 40
-                      ? "bg-yellow-500"
-                      : "bg-red-500"
-                }`}
-                style={{ width: `${popularity || 0}%` }}
+            <Box mt="2">
+              <Progress
+                value={popularity || 0}
+                max={100}
+                size="2"
+                color={popularityColor as "green" | "yellow" | "red"}
               />
-            </div>
-          </div>
+            </Box>
+          </Box>
         );
       })()}
 
-      <div className="mb-4">
-        <h3 className="mb-2 font-semibold text-gray-800 text-lg">目的</h3>
-        <p className="text-gray-700">{policy.purpose}</p>
-      </div>
+      <Box mb="4">
+        <Heading size="4" mb="2">
+          目的
+        </Heading>
+        <Text>{policy.purpose}</Text>
+      </Box>
 
       {/* 解決したい問題点 */}
       {policy.problems && policy.problems.length > 0 && (
-        <div className="mb-4">
-          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
+        <Box mb="4">
+          <Heading size="4" mb="2">
             解決したい問題点
-          </h3>
-          <ul className="list-inside list-disc text-gray-700">
+          </Heading>
+          <Box style={{ paddingLeft: "1rem" }}>
             {policy.problems.map((problem) => (
-              <li key={problem}>{problem}</li>
+              <Text
+                key={problem}
+                style={{ display: "block", marginBottom: "0.25rem" }}
+              >
+                • {problem}
+              </Text>
             ))}
-          </ul>
-        </div>
+          </Box>
+        </Box>
       )}
 
-      <div className="mb-4">
-        <h3 className="mb-2 font-semibold text-gray-800 text-lg">概要</h3>
-        <p className="text-gray-700">{policy.overview}</p>
-      </div>
+      <Box mb="4">
+        <Heading size="4" mb="2">
+          概要
+        </Heading>
+        <Text>{policy.overview}</Text>
+      </Box>
 
       {/* 具体的計画の内容 */}
       {policy.detailedPlan && (
-        <div className="mb-4">
-          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
+        <Box mb="4">
+          <Heading size="4" mb="2">
             具体的計画の内容
-          </h3>
-          <p className="text-gray-700">{policy.detailedPlan}</p>
-        </div>
+          </Heading>
+          <Text>{policy.detailedPlan}</Text>
+        </Box>
       )}
     </>
   );
@@ -131,66 +145,97 @@ export function PolicyBenefitsSection({ policy }: PolicyMetadataSectionProps) {
     <>
       {/* メリット */}
       {policy.benefits && policy.benefits.length > 0 && (
-        <div className="mb-4">
-          <h3 className="mb-2 font-semibold text-green-700 text-lg">
+        <Box mb="4">
+          <Heading size="4" mb="2" style={{ color: "var(--green-11)" }}>
             メリット
-          </h3>
-          <ul className="list-inside list-disc text-gray-700">
+          </Heading>
+          <Box style={{ paddingLeft: "1rem" }}>
             {policy.benefits.map((benefit) => (
-              <li key={benefit}>{benefit}</li>
+              <Text
+                key={benefit}
+                style={{ display: "block", marginBottom: "0.25rem" }}
+              >
+                • {benefit}
+              </Text>
             ))}
-          </ul>
-        </div>
+          </Box>
+        </Box>
       )}
 
       {/* デメリット */}
       {policy.drawbacks && policy.drawbacks.length > 0 && (
-        <div className="mb-4">
-          <h3 className="mb-2 font-semibold text-lg text-red-700">
+        <Box mb="4">
+          <Heading size="4" mb="2" style={{ color: "var(--red-11)" }}>
             デメリット
-          </h3>
-          <ul className="list-inside list-disc text-gray-700">
+          </Heading>
+          <Box style={{ paddingLeft: "1rem" }}>
             {policy.drawbacks.map((drawback) => (
-              <li key={drawback}>{drawback}</li>
+              <Text
+                key={drawback}
+                style={{ display: "block", marginBottom: "0.25rem" }}
+              >
+                • {drawback}
+              </Text>
             ))}
-          </ul>
-        </div>
+          </Box>
+        </Box>
       )}
 
       {/* キーワード */}
       {policy.keywords && policy.keywords.length > 0 && (
-        <div className="mt-4">
-          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
+        <Box mt="4">
+          <Heading size="4" mb="2">
             関連キーワード
-          </h3>
-          <div className="flex flex-wrap gap-2">
+          </Heading>
+          <Flex gap="2" wrap="wrap">
             {policy.keywords.map((keyword) => (
-              <span
-                key={keyword}
-                className="rounded-full bg-blue-100 px-3 py-1 font-medium text-blue-800 text-sm"
-              >
+              <Badge key={keyword} color="blue" variant="soft" size="2">
                 {keyword}
-              </span>
+              </Badge>
             ))}
-          </div>
-        </div>
+          </Flex>
+        </Box>
       )}
 
       {/* 関連イベント */}
       {policy.relatedEvents && policy.relatedEvents.length > 0 && (
-        <div className="mt-4">
-          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
+        <Box mt="4">
+          <Heading size="4" mb="2">
             政策に関するイベント
-          </h3>
-          <div className="relative border-blue-300 border-l-2 pl-6">
-            {policy.relatedEvents.map((event) => (
-              <div key={event} className="mb-4 last:mb-0">
-                <div className="-left-2 absolute top-0 mt-1 h-4 w-4 rounded-full border-2 border-white bg-blue-500" />
-                <p className="text-gray-700">{event}</p>
-              </div>
+          </Heading>
+          <Box
+            style={{
+              position: "relative",
+              borderLeft: "2px solid var(--blue-9)",
+              paddingLeft: "1.5rem",
+            }}
+          >
+            {policy.relatedEvents.map((event, index) => (
+              <Box
+                key={event}
+                style={{
+                  marginBottom:
+                    index === policy.relatedEvents.length - 1 ? 0 : "1rem",
+                  position: "relative",
+                }}
+              >
+                <Box
+                  style={{
+                    position: "absolute",
+                    left: "-2rem",
+                    top: "0.25rem",
+                    width: "1rem",
+                    height: "1rem",
+                    borderRadius: "50%",
+                    backgroundColor: "var(--blue-9)",
+                    border: "2px solid white",
+                  }}
+                />
+                <Text>{event}</Text>
+              </Box>
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
     </>
   );

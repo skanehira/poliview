@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@radix-ui/themes";
+import { Button, Dialog, Flex, Text } from "@radix-ui/themes";
 import type { Policy } from "../types/policy";
 import { PolicyCommentsSection } from "./PolicyCommentsSection";
 import {
@@ -43,21 +43,39 @@ export function PolicyDetailModal({
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Content
         maxWidth="48rem"
-        className="relative max-h-[90vh] overflow-y-auto"
+        style={{
+          position: "relative",
+          maxHeight: "90vh",
+          overflowY: "auto",
+        }}
       >
-        <Dialog.Description className="sr-only">
+        <Dialog.Description
+          style={{
+            position: "absolute",
+            width: "1px",
+            height: "1px",
+            padding: 0,
+            margin: "-1px",
+            overflow: "hidden",
+            clip: "rect(0, 0, 0, 0)",
+            whiteSpace: "nowrap",
+            borderWidth: 0,
+          }}
+        >
           政策の詳細情報、メタデータ、コメントを表示
         </Dialog.Description>
-        <div className="mb-4 flex items-start justify-between">
-          <Dialog.Title className="font-bold text-2xl text-blue-700">
-            {policy.title}
+        <Flex justify="between" align="start" mb="4">
+          <Dialog.Title>
+            <Text size="6" weight="bold" style={{ color: "var(--blue-11)" }}>
+              {policy.title}
+            </Text>
           </Dialog.Title>
           <Dialog.Close>
             <Button variant="ghost" color="gray" size="1">
               &times;
             </Button>
           </Dialog.Close>
-        </div>
+        </Flex>
 
         {/* メタデータセクション（具体的計画まで） */}
         <PolicyMetadataSection policy={policy} />

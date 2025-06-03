@@ -74,3 +74,6 @@ This is a municipal policy visualization application with two main sections:
   - formatする
   - テストが通らない箇所があれば修正
 - 次の作業を始める前にコミットする
+
+## Claude Code Guidance
+- 回答はすべて日本語を使う

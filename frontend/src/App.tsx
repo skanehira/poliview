@@ -1,3 +1,4 @@
+import { Box, Container } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { FinanceChart } from "./components/FinanceChart";
 import { FloatingActionButton } from "./components/FloatingActionButton";
@@ -124,7 +125,17 @@ function App() {
   }, [policies, selectedPolicy]); // policiesの変更を監視
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50 font-sans text-gray-800">
+    <Box
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        flexDirection: "column",
+        backgroundColor: "var(--gray-3)",
+        fontFamily:
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
+        color: "var(--gray-12)",
+      }}
+    >
       <Header
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -134,9 +145,14 @@ function App() {
 
       {/* メインコンテンツ */}
       {/* ヘッダーの高さ分、上部にパディングを追加 */}
-      <main className="container mx-auto flex-grow p-4 pt-40 sm:pt-36">
-        {" "}
-        {/* ヘッダーの高さに合わせて調整 */}
+      <Container
+        size="4"
+        style={{
+          flexGrow: 1,
+          padding: "1rem",
+          paddingTop: "10rem",
+        }}
+      >
         {activeTab === "policies" && (
           <PolicyList
             policies={policies}
@@ -147,7 +163,7 @@ function App() {
           />
         )}
         {activeTab === "finance" && <FinanceChart />}
-      </main>
+      </Container>
 
       {/* 政策詳細モーダル */}
       <PolicyDetailModal
@@ -188,7 +204,7 @@ function App() {
         onClose={() => setShowAddForm(false)}
         onAddPolicy={addPolicy}
       />
-    </div>
+    </Box>
   );
 }
 

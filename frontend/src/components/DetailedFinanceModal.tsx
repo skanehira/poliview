@@ -1,4 +1,4 @@
-import { Button, Dialog } from "@radix-ui/themes";
+import { Box, Button, Dialog, Flex, Heading, Text } from "@radix-ui/themes";
 import {
   Bar,
   BarChart,
@@ -56,22 +56,36 @@ export function DetailedFinanceModal({
     return (
       <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Dialog.Content maxWidth="36rem">
-          <Dialog.Description className="sr-only">
+          <Dialog.Description
+            style={{
+              position: "absolute",
+              width: "1px",
+              height: "1px",
+              padding: 0,
+              margin: "-1px",
+              overflow: "hidden",
+              clip: "rect(0, 0, 0, 0)",
+              whiteSpace: "nowrap",
+              borderWidth: 0,
+            }}
+          >
             {category}の詳細な財務データと内訳を表示
           </Dialog.Description>
-          <div className="mb-4 flex items-start justify-between">
-            <Dialog.Title className="font-bold text-gray-800 text-xl">
-              {category}の詳細 ({period})
+          <Flex justify="between" align="start" mb="4">
+            <Dialog.Title>
+              <Text size="5" weight="bold">
+                {category}の詳細 ({period})
+              </Text>
             </Dialog.Title>
             <Dialog.Close>
               <Button variant="ghost" color="gray" size="1">
                 &times;
               </Button>
             </Dialog.Close>
-          </div>
+          </Flex>
 
-          <Dialog.Description className="text-gray-700">
-            この期間のデータはありません。
+          <Dialog.Description>
+            <Text color="gray">この期間のデータはありません。</Text>
           </Dialog.Description>
         </Dialog.Content>
       </Dialog.Root>
@@ -86,22 +100,36 @@ export function DetailedFinanceModal({
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Content maxWidth="36rem">
-        <Dialog.Description className="sr-only">
+        <Dialog.Description
+          style={{
+            position: "absolute",
+            width: "1px",
+            height: "1px",
+            padding: 0,
+            margin: "-1px",
+            overflow: "hidden",
+            clip: "rect(0, 0, 0, 0)",
+            whiteSpace: "nowrap",
+            borderWidth: 0,
+          }}
+        >
           {category}の詳細な{isRevenue ? "歳入" : "歳出"}
-          データをチャートと内訳で表示
+          データをチャートと内詳で表示
         </Dialog.Description>
-        <div className="mb-4 flex items-start justify-between">
-          <Dialog.Title className="font-bold text-gray-800 text-xl">
-            {category}の詳細 ({period}) - {isRevenue ? "歳入" : "歳出"}
+        <Flex justify="between" align="start" mb="4">
+          <Dialog.Title>
+            <Text size="5" weight="bold">
+              {category}の詳細 ({period}) - {isRevenue ? "歳入" : "歳出"}
+            </Text>
           </Dialog.Title>
           <Dialog.Close>
             <Button variant="ghost" color="gray" size="1">
               &times;
             </Button>
           </Dialog.Close>
-        </div>
+        </Flex>
 
-        <div className="mb-4">
+        <Box mb="4">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={chartData}
@@ -119,18 +147,23 @@ export function DetailedFinanceModal({
               />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </Box>
 
-        <div>
-          <h4 className="mb-2 font-semibold text-gray-800 text-lg">内訳</h4>
-          <ul className="list-inside list-disc text-gray-700">
+        <Box>
+          <Heading size="4" mb="2">
+            内訳
+          </Heading>
+          <Box style={{ paddingLeft: "1rem" }}>
             {Object.entries(detailData).map(([name, value]) => (
-              <li key={name}>
-                {name}: {formatCurrency(value)}
-              </li>
+              <Text
+                key={name}
+                style={{ display: "block", marginBottom: "0.25rem" }}
+              >
+                • {name}: {formatCurrency(value)}
+              </Text>
             ))}
-          </ul>
-        </div>
+          </Box>
+        </Box>
       </Dialog.Content>
     </Dialog.Root>
   );

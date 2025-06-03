@@ -1,4 +1,4 @@
-import { Button } from "@radix-ui/themes";
+import { Badge, Box, Button, Card, Flex, Text } from "@radix-ui/themes";
 import type { Policy } from "../types/policy";
 
 interface PolicyCardProps {
@@ -12,7 +12,6 @@ export const PolicyCard: React.FC<PolicyCardProps> = ({
   policy,
   onPolicySelect,
   onVote,
-  getStatusClasses,
 }) => {
   // 人気度を計算
   const totalVotes = (policy.upvotes || 0) + (policy.downvotes || 0);
@@ -20,32 +19,80 @@ export const PolicyCard: React.FC<PolicyCardProps> = ({
     totalVotes > 0 ? ((policy.upvotes || 0) / totalVotes) * 100 : null;
 
   return (
-    <div
-      key={policy.id}
+    <Card
+      size="3"
+      style={{
+        cursor: "pointer",
+        transition: "all 0.3s ease",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
       onClick={() => {
         onPolicySelect(policy);
       }}
-      className="flex cursor-pointer flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl"
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow = "";
+      }}
     >
-      <div>
-        <h3 className="mb-2 font-semibold text-blue-700 text-xl">
+      <Box style={{ flexGrow: 1 }}>
+        <Text
+          size="5"
+          weight="bold"
+          style={{
+            color: "var(--blue-11)",
+            marginBottom: "0.5rem",
+            display: "block",
+          }}
+        >
           {policy.title}
-        </h3>
-        <p className="mb-3 text-gray-600 text-sm">年度: {policy.year}</p>
-        <p className="line-clamp-3 text-gray-700 text-sm">{policy.overview}</p>
-        <div className="mt-3 flex flex-wrap gap-2">
+        </Text>
+        <Text
+          size="2"
+          color="gray"
+          style={{
+            marginBottom: "0.75rem",
+            display: "block",
+          }}
+        >
+          年度: {policy.year}
+        </Text>
+        <Text
+          size="2"
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            color: "var(--gray-11)",
+            marginBottom: "0.75rem",
+          }}
+        >
+          {policy.overview}
+        </Text>
+        <Flex gap="2" wrap="wrap">
           {policy.keywords?.map((keyword) => (
-            <span
-              key={keyword}
-              className="rounded-full bg-blue-100 px-2.5 py-0.5 font-medium text-blue-800 text-xs"
-            >
+            <Badge key={keyword} color="blue" variant="soft" size="1">
               {keyword}
-            </span>
+            </Badge>
           ))}
-        </div>
-      </div>
-      <div className="mt-4 flex items-center justify-between border-gray-100 border-t pt-4">
-        <div className="flex space-x-2">
+        </Flex>
+      </Box>
+      <Flex
+        align="center"
+        justify="between"
+        style={{
+          marginTop: "1rem",
+          paddingTop: "1rem",
+          borderTop: "1px solid var(--gray-5)",
+        }}
+      >
+        <Flex gap="2">
           <Button
             onClick={(e) => {
               e.stopPropagation();
@@ -70,33 +117,48 @@ export const PolicyCard: React.FC<PolicyCardProps> = ({
           >
             👎 {policy.downvotes}
           </Button>
-        </div>
+        </Flex>
         {/* 人気度を表示 */}
         {popularity !== null && (
-          <span
-            className={`font-semibold text-sm ${
-              popularity >= 70
-                ? "text-green-600"
-                : popularity >= 40
-                  ? "text-yellow-600"
-                  : "text-red-600"
-            }`}
+          <Text
+            size="2"
+            weight="bold"
+            style={{
+              color:
+                popularity >= 70
+                  ? "var(--green-11)"
+                  : popularity >= 40
+                    ? "var(--yellow-11)"
+                    : "var(--red-11)",
+            }}
           >
             人気度: {popularity.toFixed(0)}%
-          </span>
+          </Text>
         )}
         {popularity === null && (
-          <span className="font-semibold text-gray-500 text-sm">評価なし</span>
+          <Text size="2" weight="bold" color="gray">
+            評価なし
+          </Text>
         )}
         {/* ステータス表示 */}
         {policy.status && (
-          <span
-            className={`rounded-full px-2.5 py-0.5 font-semibold text-xs ${getStatusClasses(policy.status)}`}
+          <Badge
+            size="1"
+            color={
+              policy.status === "進行中"
+                ? "blue"
+                : policy.status === "完了"
+                  ? "green"
+                  : policy.status === "中止"
+                    ? "red"
+                    : "gray"
+            }
+            variant="soft"
           >
             {policy.status}
-          </span>
+          </Badge>
         )}
-      </div>
-    </div>
+      </Flex>
+    </Card>
   );
 };

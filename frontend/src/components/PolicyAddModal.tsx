@@ -11,6 +11,7 @@ import {
 } from "@radix-ui/themes";
 import { type FormEvent, useState } from "react";
 import type { NewPolicy } from "../types/policy";
+import { ConfirmationModal } from "./ConfirmationModal";
 
 interface PolicyAddModalProps {
   isOpen: boolean;
@@ -114,17 +115,9 @@ export function PolicyAddModal({
         open={isOpen}
         onOpenChange={(open) => !open && handleClose()}
       >
-        <Dialog.Content
-          maxWidth="48rem"
-          className="relative max-h-[90vh] overflow-y-auto"
-        >
-          <Dialog.Description className="sr-only">
-            新しい政策を追加するためのフォーム
-          </Dialog.Description>
+        <Dialog.Content maxWidth="48rem">
           <Flex justify="between" align="start" mb="4">
-            <Dialog.Title className="font-semibold text-blue-700 text-xl">
-              新しい政策を追加
-            </Dialog.Title>
+            <Dialog.Title>新しい政策を追加</Dialog.Title>
             <Dialog.Close>
               <Button variant="ghost" color="gray" size="1">
                 &times;
@@ -379,39 +372,12 @@ export function PolicyAddModal({
       </Dialog.Root>
 
       {/* Confirmation dialog for unsaved changes */}
-      {showConfirmClose && (
-        <Dialog.Root
-          open={showConfirmClose}
-          onOpenChange={(open) => !open && handleCancelDiscard()}
-        >
-          <Dialog.Content maxWidth="24rem" className="text-center">
-            <Dialog.Title className="mb-4 font-semibold text-lg">
-              確認
-            </Dialog.Title>
-            <Dialog.Description className="mb-6 text-gray-700">
-              未保存の変更があります。破棄して閉じますか？
-            </Dialog.Description>
-            <Flex justify="center" gap="4">
-              <Button
-                onClick={handleConfirmDiscard}
-                color="red"
-                variant="solid"
-                size="2"
-              >
-                はい
-              </Button>
-              <Button
-                onClick={handleCancelDiscard}
-                color="gray"
-                variant="soft"
-                size="2"
-              >
-                いいえ
-              </Button>
-            </Flex>
-          </Dialog.Content>
-        </Dialog.Root>
-      )}
+      <ConfirmationModal
+        isOpen={showConfirmClose}
+        message="未保存の変更があります。破棄して閉じますか？"
+        onConfirm={handleConfirmDiscard}
+        onCancel={handleCancelDiscard}
+      />
     </>
   );
 }
