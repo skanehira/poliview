@@ -1,8 +1,13 @@
+import { Theme } from "@radix-ui/themes";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Policy } from "../../types/policy";
 import { PolicyCard } from "../PolicyCard";
 import "@testing-library/jest-dom";
+
+function renderWithTheme(component: React.ReactElement) {
+  return render(<Theme>{component}</Theme>);
+}
 
 describe("PolicyCard", () => {
   const mockPolicy: Policy = {
@@ -35,7 +40,7 @@ describe("PolicyCard", () => {
   });
 
   it("renders policy information correctly", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     expect(screen.getByText("テスト政策")).toBeInTheDocument();
     expect(screen.getByText("年度: 2024")).toBeInTheDocument();
@@ -45,31 +50,31 @@ describe("PolicyCard", () => {
   });
 
   it("renders keywords correctly", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     expect(screen.getByText("キーワード1")).toBeInTheDocument();
     expect(screen.getByText("キーワード2")).toBeInTheDocument();
   });
 
   it("displays vote counts correctly", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     expect(screen.getByText("👍 10")).toBeInTheDocument();
     expect(screen.getByText("👎 3")).toBeInTheDocument();
   });
 
   it("calculates and displays popularity correctly", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     // 10 upvotes + 3 downvotes = 13 total, 10/13 * 100 = 76.9% ≈ 77%
     expect(screen.getByText("人気度: 77%")).toBeInTheDocument();
   });
 
   it("displays popularity with correct color classes", () => {
-    // High popularity (>= 70%)
-    render(<PolicyCard {...defaultProps} />);
+    // High popularity (>= 70%) - now uses CSS variables
+    renderWithTheme(<PolicyCard {...defaultProps} />);
     const popularityElement = screen.getByText("人気度: 77%");
-    expect(popularityElement).toHaveClass("text-green-600");
+    expect(popularityElement).toHaveStyle({ color: "var(--green-11)" });
   });
 
   it("displays medium popularity with yellow color", () => {
@@ -79,11 +84,11 @@ describe("PolicyCard", () => {
       downvotes: 5,
     };
     const props = { ...defaultProps, policy: mediumPopularityPolicy };
-    render(<PolicyCard {...props} />);
+    renderWithTheme(<PolicyCard {...props} />);
 
     // 5/10 * 100 = 50%
     const popularityElement = screen.getByText("人気度: 50%");
-    expect(popularityElement).toHaveClass("text-yellow-600");
+    expect(popularityElement).toHaveStyle({ color: "var(--yellow-11)" });
   });
 
   it("displays low popularity with red color", () => {
@@ -93,11 +98,11 @@ describe("PolicyCard", () => {
       downvotes: 8,
     };
     const props = { ...defaultProps, policy: lowPopularityPolicy };
-    render(<PolicyCard {...props} />);
+    renderWithTheme(<PolicyCard {...props} />);
 
     // 2/10 * 100 = 20%
     const popularityElement = screen.getByText("人気度: 20%");
-    expect(popularityElement).toHaveClass("text-red-600");
+    expect(popularityElement).toHaveStyle({ color: "var(--red-11)" });
   });
 
   it("displays '評価なし' when no votes", () => {
@@ -107,21 +112,22 @@ describe("PolicyCard", () => {
       downvotes: 0,
     };
     const props = { ...defaultProps, policy: noVotesPolicy };
-    render(<PolicyCard {...props} />);
+    renderWithTheme(<PolicyCard {...props} />);
 
     expect(screen.getByText("評価なし")).toBeInTheDocument();
   });
 
   it("displays status with correct classes", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     const statusElement = screen.getByText("進行中");
     expect(statusElement).toBeInTheDocument();
-    expect(defaultProps.getStatusClasses).toHaveBeenCalledWith("進行中");
+    // No longer uses getStatusClasses - uses Radix Badge colors directly
+    expect(statusElement).toHaveClass("rt-reset", "rt-Badge");
   });
 
   it("calls onPolicySelect when card is clicked", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     const card = screen.getByText("テスト政策").closest("div");
     expect(card).not.toBeNull();
@@ -131,7 +137,7 @@ describe("PolicyCard", () => {
   });
 
   it("calls onVote with correct parameters for upvote", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     const upvoteButton = screen.getByText("👍 10");
     fireEvent.click(upvoteButton);
@@ -140,7 +146,7 @@ describe("PolicyCard", () => {
   });
 
   it("calls onVote with correct parameters for downvote", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     const downvoteButton = screen.getByText("👎 3");
     fireEvent.click(downvoteButton);
@@ -149,7 +155,7 @@ describe("PolicyCard", () => {
   });
 
   it("prevents card click when voting buttons are clicked", () => {
-    render(<PolicyCard {...defaultProps} />);
+    renderWithTheme(<PolicyCard {...defaultProps} />);
 
     const upvoteButton = screen.getByText("👍 10");
     fireEvent.click(upvoteButton);
@@ -164,7 +170,7 @@ describe("PolicyCard", () => {
       keywords: [],
     };
     const props = { ...defaultProps, policy: policyWithoutKeywords };
-    render(<PolicyCard {...props} />);
+    renderWithTheme(<PolicyCard {...props} />);
 
     expect(screen.queryByText("キーワード1")).not.toBeInTheDocument();
     expect(screen.queryByText("キーワード2")).not.toBeInTheDocument();
@@ -176,31 +182,17 @@ describe("PolicyCard", () => {
       status: undefined,
     };
     const props = { ...defaultProps, policy: policyWithoutStatus };
-    render(<PolicyCard {...props} />);
+    renderWithTheme(<PolicyCard {...props} />);
 
     expect(screen.queryByText("進行中")).not.toBeInTheDocument();
   });
 
   it("has proper styling classes", () => {
-    const { container } = render(<PolicyCard {...defaultProps} />);
+    const { container } = renderWithTheme(<PolicyCard {...defaultProps} />);
 
-    // カードの最上位要素を取得
-    const card = container.firstChild as HTMLElement;
-    expect(card).toHaveClass(
-      "bg-white",
-      "p-6",
-      "rounded-lg",
-      "shadow-lg",
-      "hover:shadow-xl",
-      "transition-shadow",
-      "duration-300",
-      "cursor-pointer",
-      "border",
-      "border-gray-200",
-      "flex",
-      "flex-col",
-      "justify-between",
-    );
+    // Find the actual Card component within the Theme wrapper
+    const card = container.querySelector('[class*="rt-Card"]');
+    expect(card).toHaveClass("rt-reset", "rt-BaseCard", "rt-Card");
   });
 
   it("handles missing upvotes and downvotes gracefully", () => {
@@ -210,7 +202,7 @@ describe("PolicyCard", () => {
       downvotes: 0,
     };
     const props = { ...defaultProps, policy: policyWithMissingVotes };
-    render(<PolicyCard {...props} />);
+    renderWithTheme(<PolicyCard {...props} />);
 
     expect(screen.getByText("👍 0")).toBeInTheDocument();
     expect(screen.getByText("👎 0")).toBeInTheDocument();

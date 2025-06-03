@@ -1,8 +1,13 @@
+import { Theme } from "@radix-ui/themes";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Policy } from "../../types/policy";
 import { PolicyList } from "../PolicyList";
 import "@testing-library/jest-dom";
+
+function renderWithTheme(component: React.ReactElement) {
+  return render(<Theme>{component}</Theme>);
+}
 
 describe("PolicyList", () => {
   const mockPolicies: Policy[] = [
@@ -72,7 +77,7 @@ describe("PolicyList", () => {
   });
 
   it("renders all policies when no search term", () => {
-    render(<PolicyList {...defaultProps} />);
+    renderWithTheme(<PolicyList {...defaultProps} />);
 
     expect(screen.getByText("環境政策")).toBeInTheDocument();
     expect(screen.getByText("教育政策")).toBeInTheDocument();
@@ -81,7 +86,7 @@ describe("PolicyList", () => {
 
   it("filters policies by title search term", () => {
     const props = { ...defaultProps, searchTerm: "環境" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.getByText("環境政策")).toBeInTheDocument();
     expect(screen.queryByText("教育政策")).not.toBeInTheDocument();
@@ -90,7 +95,7 @@ describe("PolicyList", () => {
 
   it("filters policies by purpose search term", () => {
     const props = { ...defaultProps, searchTerm: "教育水準" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.queryByText("環境政策")).not.toBeInTheDocument();
     expect(screen.getByText("教育政策")).toBeInTheDocument();
@@ -99,7 +104,7 @@ describe("PolicyList", () => {
 
   it("filters policies by overview search term", () => {
     const props = { ...defaultProps, searchTerm: "交通網整備" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.queryByText("環境政策")).not.toBeInTheDocument();
     expect(screen.queryByText("教育政策")).not.toBeInTheDocument();
@@ -108,7 +113,7 @@ describe("PolicyList", () => {
 
   it("filters policies by detailed plan search term", () => {
     const props = { ...defaultProps, searchTerm: "環境保護計画" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.getByText("環境政策")).toBeInTheDocument();
     expect(screen.queryByText("教育政策")).not.toBeInTheDocument();
@@ -117,7 +122,7 @@ describe("PolicyList", () => {
 
   it("filters policies by problems search term", () => {
     const props = { ...defaultProps, searchTerm: "教育格差" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.queryByText("環境政策")).not.toBeInTheDocument();
     expect(screen.getByText("教育政策")).toBeInTheDocument();
@@ -126,7 +131,7 @@ describe("PolicyList", () => {
 
   it("filters policies by keywords search term", () => {
     const props = { ...defaultProps, searchTerm: "エコ" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.getByText("環境政策")).toBeInTheDocument();
     expect(screen.queryByText("教育政策")).not.toBeInTheDocument();
@@ -135,7 +140,7 @@ describe("PolicyList", () => {
 
   it("filters policies by related events search term", () => {
     const props = { ...defaultProps, searchTerm: "交通会議" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.queryByText("環境政策")).not.toBeInTheDocument();
     expect(screen.queryByText("教育政策")).not.toBeInTheDocument();
@@ -144,7 +149,7 @@ describe("PolicyList", () => {
 
   it("is case insensitive when filtering", () => {
     const props = { ...defaultProps, searchTerm: "環境" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.getByText("環境政策")).toBeInTheDocument();
     expect(screen.queryByText("教育政策")).not.toBeInTheDocument();
@@ -153,7 +158,7 @@ describe("PolicyList", () => {
 
   it("shows no results message when search term doesn't match any policies", () => {
     const props = { ...defaultProps, searchTerm: "存在しない政策" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(
       screen.getByText(
@@ -165,7 +170,7 @@ describe("PolicyList", () => {
 
   it("shows empty state message when no policies and no search term", () => {
     const props = { ...defaultProps, policies: [], searchTerm: "" };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(
       screen.getByText(
@@ -175,29 +180,25 @@ describe("PolicyList", () => {
   });
 
   it("displays policies in grid layout", () => {
-    render(<PolicyList {...defaultProps} />);
+    renderWithTheme(<PolicyList {...defaultProps} />);
 
     const gridContainer = screen.getAllByText("環境政策")[0].closest("div")
       ?.parentElement?.parentElement;
-    expect(gridContainer).toHaveClass(
-      "grid",
-      "grid-cols-1",
-      "gap-6",
-      "sm:grid-cols-2",
-      "lg:grid-cols-3",
-    );
+    expect(gridContainer).toHaveClass("rt-Grid");
   });
 
   it("passes correct props to PolicyCard components", () => {
-    render(<PolicyList {...defaultProps} />);
+    renderWithTheme(<PolicyList {...defaultProps} />);
 
-    // Check that PolicyCard components receive the correct props
-    expect(defaultProps.getStatusClasses).toHaveBeenCalledWith("進行中");
-    expect(defaultProps.getStatusClasses).toHaveBeenCalledWith("完了");
+    // PolicyCard no longer uses getStatusClasses, it uses built-in Radix colors
+    // Just check that policies are rendered
+    expect(screen.getByText("環境政策")).toBeInTheDocument();
+    expect(screen.getByText("教育政策")).toBeInTheDocument();
+    expect(screen.getByText("交通政策")).toBeInTheDocument();
   });
 
   it("calls onPolicySelect when a policy card is clicked", () => {
-    render(<PolicyList {...defaultProps} />);
+    renderWithTheme(<PolicyList {...defaultProps} />);
 
     const policyCard = screen.getAllByText("環境政策")[0].closest("div");
     if (policyCard) {
@@ -208,7 +209,7 @@ describe("PolicyList", () => {
   });
 
   it("calls onVote when voting on a policy", () => {
-    render(<PolicyList {...defaultProps} />);
+    renderWithTheme(<PolicyList {...defaultProps} />);
 
     const upvoteButton = screen.getByText("👍 15");
     fireEvent.click(upvoteButton);
@@ -217,7 +218,7 @@ describe("PolicyList", () => {
   });
 
   it("renders multiple policies with different data", () => {
-    render(<PolicyList {...defaultProps} />);
+    renderWithTheme(<PolicyList {...defaultProps} />);
 
     // Check that all policies are rendered with their specific data
     expect(screen.getByText("環境政策")).toBeInTheDocument();
@@ -254,7 +255,7 @@ describe("PolicyList", () => {
     ];
 
     const props = { ...defaultProps, policies: policiesWithMissingFields };
-    render(<PolicyList {...props} />);
+    renderWithTheme(<PolicyList {...props} />);
 
     expect(screen.getByText("最小限政策")).toBeInTheDocument();
   });

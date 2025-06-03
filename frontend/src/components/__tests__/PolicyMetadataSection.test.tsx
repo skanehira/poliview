@@ -68,7 +68,8 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyMetadataSection policy={policy} />);
 
     const statusElement = screen.getByText("完了");
-    expect(statusElement).toHaveClass("bg-green-100", "text-green-800");
+    expect(statusElement).toHaveClass("rt-reset", "rt-Badge");
+    expect(statusElement).toHaveAttribute("data-accent-color", "green");
   });
 
   it("applies correct status styling for 進行中", () => {
@@ -82,7 +83,8 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyMetadataSection policy={policy} />);
 
     const statusElement = screen.getByText("進行中");
-    expect(statusElement).toHaveClass("bg-blue-100", "text-blue-800");
+    expect(statusElement).toHaveClass("rt-reset", "rt-Badge");
+    expect(statusElement).toHaveAttribute("data-accent-color", "blue");
   });
 
   it("applies correct status styling for 中止", () => {
@@ -96,7 +98,8 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyMetadataSection policy={policy} />);
 
     const statusElement = screen.getByText("中止");
-    expect(statusElement).toHaveClass("bg-red-100", "text-red-800");
+    expect(statusElement).toHaveClass("rt-reset", "rt-Badge");
+    expect(statusElement).toHaveAttribute("data-accent-color", "red");
   });
 
   it("displays budget when provided", () => {
@@ -162,7 +165,7 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyMetadataSection policy={policy} />);
 
     const popularityElement = screen.getByText("80%"); // 80/(80+20) * 100 = 80%
-    expect(popularityElement).toHaveClass("text-green-600");
+    expect(popularityElement).toHaveAttribute("data-accent-color", "green");
   });
 
   it("applies correct popularity color styling for medium popularity", () => {
@@ -175,7 +178,7 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyMetadataSection policy={policy} />);
 
     const popularityElement = screen.getByText("50%");
-    expect(popularityElement).toHaveClass("text-yellow-600");
+    expect(popularityElement).toHaveAttribute("data-accent-color", "yellow");
   });
 
   it("applies correct popularity color styling for low popularity", () => {
@@ -188,7 +191,7 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyMetadataSection policy={policy} />);
 
     const popularityElement = screen.getByText("20%");
-    expect(popularityElement).toHaveClass("text-red-600");
+    expect(popularityElement).toHaveAttribute("data-accent-color", "red");
   });
 
   it("displays problems section when problems exist", () => {
@@ -201,8 +204,8 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyMetadataSection policy={policy} />);
 
     expect(screen.getByText("解決したい問題点")).toBeInTheDocument();
-    expect(screen.getByText("Problem 1")).toBeInTheDocument();
-    expect(screen.getByText("Problem 2")).toBeInTheDocument();
+    expect(screen.getByText("• Problem 1")).toBeInTheDocument();
+    expect(screen.getByText("• Problem 2")).toBeInTheDocument();
   });
 
   it("displays detailed plan when provided", () => {
@@ -228,7 +231,7 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyBenefitsSection policy={policy} />);
 
     expect(screen.getByText("メリット")).toBeInTheDocument();
-    expect(screen.getByText("Benefit 1")).toBeInTheDocument();
+    expect(screen.getByText("• Benefit 1")).toBeInTheDocument();
   });
 
   it("displays drawbacks section", () => {
@@ -241,7 +244,7 @@ describe("PolicyMetadataSection", () => {
     renderWithTheme(<PolicyBenefitsSection policy={policy} />);
 
     expect(screen.getByText("デメリット")).toBeInTheDocument();
-    expect(screen.getByText("Drawback 1")).toBeInTheDocument();
+    expect(screen.getByText("• Drawback 1")).toBeInTheDocument();
   });
 
   it("displays keywords section", () => {

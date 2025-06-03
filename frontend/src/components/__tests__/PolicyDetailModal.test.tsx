@@ -136,11 +136,11 @@ describe("PolicyDetailModal", () => {
       />,
     );
 
-    expect(screen.getByText("Problem 1")).toBeInTheDocument();
-    expect(screen.getByText("Problem 2")).toBeInTheDocument();
-    expect(screen.getByText("Benefit 1")).toBeInTheDocument();
-    expect(screen.getByText("Benefit 2")).toBeInTheDocument();
-    expect(screen.getByText("Drawback 1")).toBeInTheDocument();
+    expect(screen.getByText("• Problem 1")).toBeInTheDocument();
+    expect(screen.getByText("• Problem 2")).toBeInTheDocument();
+    expect(screen.getByText("• Benefit 1")).toBeInTheDocument();
+    expect(screen.getByText("• Benefit 2")).toBeInTheDocument();
+    expect(screen.getByText("• Drawback 1")).toBeInTheDocument();
     expect(screen.getByText("test")).toBeInTheDocument();
     expect(screen.getByText("policy")).toBeInTheDocument();
   });
