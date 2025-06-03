@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { Theme } from "@radix-ui/themes";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Theme } from "@radix-ui/themes";
-import { PolicyCommentsSection } from "../PolicyCommentsSection";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Policy } from "../../types/policy";
+import { PolicyCommentsSection } from "../PolicyCommentsSection";
 
 const mockPolicyWithComments: Policy = {
   id: "1",

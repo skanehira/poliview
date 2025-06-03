@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { Theme } from "@radix-ui/themes";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Theme } from "@radix-ui/themes";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ConfirmationModal } from "../ConfirmationModal";
 
 function renderWithTheme(component: React.ReactElement) {

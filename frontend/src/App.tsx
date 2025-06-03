@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
 import { Button } from "@radix-ui/themes";
-import { PolicyDetailModal } from "./components/PolicyDetailModal";
-import { PolicyAddModal } from "./components/PolicyAddModal";
+import { useCallback, useEffect, useState } from "react";
 import { FinanceChart } from "./components/FinanceChart";
 import { Header } from "./components/Header";
-import type { Policy, NewPolicy, Policies } from "./types/policy";
+import { PolicyAddModal } from "./components/PolicyAddModal";
+import { PolicyCard } from "./components/PolicyCard";
+import { PolicyDetailModal } from "./components/PolicyDetailModal";
 import { DUMMY_POLICIES } from "./data/policies";
+import type { NewPolicy, Policies, Policy } from "./types/policy";
 
 function App() {
   const [policies, setPolicies] = useState<Policies>([]);
@@ -32,7 +33,6 @@ function App() {
         (a, b) => (b.year || 0) - (a.year || 0),
       );
       setPolicies(sortedDummyPolicies);
-      console.log("Dummy data loaded successfully!");
     }
   }, [policies.length]);
 
@@ -58,7 +58,6 @@ function App() {
       // 新しい政策が追加されたら、現在のソート順で再ソート
       return sortPolicies(updatedPolicies, sortOrder);
     });
-    console.log("Policy added successfully!");
   };
 
   // 投票ハンドラー
@@ -298,7 +297,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-800 flex flex-col">
+    <div className="flex min-h-screen flex-col bg-gray-50 font-sans text-gray-800">
       <Header
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -308,116 +307,31 @@ function App() {
 
       {/* メインコンテンツ */}
       {/* ヘッダーの高さ分、上部にパディングを追加 */}
-      <main className="container mx-auto p-4 flex-grow pt-40 sm:pt-36">
+      <main className="container mx-auto flex-grow p-4 pt-40 sm:pt-36">
         {" "}
         {/* ヘッダーの高さに合わせて調整 */}
-        {activeTab === "policies" && (
-          <>
-            {filteredPolicies.length === 0 && searchTerm !== "" ? (
-              <p className="text-center text-gray-600 text-lg mt-8">
-                「{searchTerm}」に一致する政策は見つかりませんでした。
-              </p>
-            ) : filteredPolicies.length === 0 && searchTerm === "" ? (
-              <p className="text-center text-gray-600 text-lg mt-8">
-                現在、登録されている政策はありません。ダミーデータが自動的に読み込まれます。
-              </p>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-                {filteredPolicies.map((policy) => {
-                  // 人気度を計算
-                  const totalVotes =
-                    (policy.upvotes || 0) + (policy.downvotes || 0);
-                  const popularity =
-                    totalVotes > 0
-                      ? ((policy.upvotes || 0) / totalVotes) * 100
-                      : null;
-
-                  return (
-                    <div
-                      key={policy.id}
-                      onClick={() => {
-                        console.log("Policy selected:", policy.title);
-                        setSelectedPolicy(policy);
-                      }}
-                      className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-gray-200 flex flex-col justify-between"
-                    >
-                      <div>
-                        <h3 className="text-xl font-semibold text-blue-700 mb-2">
-                          {policy.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-3">
-                          年度: {policy.year}
-                        </p>
-                        <p className="text-gray-700 text-sm line-clamp-3">
-                          {policy.overview}
-                        </p>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {policy.keywords?.map((keyword) => (
-                            <span
-                              key={keyword}
-                              className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full"
-                            >
-                              {keyword}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                        <div className="flex space-x-2">
-                          <Button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleVote(policy.id, "up");
-                            }}
-                            variant="soft"
-                            color="green"
-                            size="1"
-                            radius="full"
-                          >
-                            👍 {policy.upvotes}
-                          </Button>
-                          <Button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleVote(policy.id, "down");
-                            }}
-                            variant="soft"
-                            color="red"
-                            size="1"
-                            radius="full"
-                          >
-                            👎 {policy.downvotes}
-                          </Button>
-                        </div>
-                        {/* 人気度を表示 */}
-                        {popularity !== null && (
-                          <span
-                            className={`text-sm font-semibold ${popularity >= 70 ? "text-green-600" : popularity >= 40 ? "text-yellow-600" : "text-red-600"}`}
-                          >
-                            人気度: {popularity.toFixed(0)}%
-                          </span>
-                        )}
-                        {popularity === null && (
-                          <span className="text-sm font-semibold text-gray-500">
-                            評価なし
-                          </span>
-                        )}
-                        {/* ステータス表示 */}
-                        {policy.status && (
-                          <span
-                            className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${getStatusClasses(policy.status)}`}
-                          >
-                            {policy.status}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </>
-        )}
+        {activeTab === "policies" &&
+          (filteredPolicies.length === 0 && searchTerm !== "" ? (
+            <p className="mt-8 text-center text-gray-600 text-lg">
+              「{searchTerm}」に一致する政策は見つかりませんでした。
+            </p>
+          ) : filteredPolicies.length === 0 && searchTerm === "" ? (
+            <p className="mt-8 text-center text-gray-600 text-lg">
+              現在、登録されている政策はありません。ダミーデータが自動的に読み込まれます。
+            </p>
+          ) : (
+            <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredPolicies.map((policy) => (
+                <PolicyCard
+                  key={policy.id}
+                  policy={policy}
+                  onPolicySelect={setSelectedPolicy}
+                  onVote={handleVote}
+                  getStatusClasses={getStatusClasses}
+                />
+              ))}
+            </div>
+          ))}
         {activeTab === "finance" && <FinanceChart />}
       </main>
 
@@ -439,7 +353,7 @@ function App() {
 
       {/* フローティングアクションボタン (FAB) メニュー */}
       {activeTab === "policies" && ( // 政策一覧タブでのみFABを表示
-        <div className="fixed bottom-8 right-8 z-20">
+        <div className="fixed right-8 bottom-8 z-20">
           <div className="relative">
             {" "}
             {/* このdivがFABとメニューの親となり、相対的な位置決めを可能にする */}
@@ -450,13 +364,13 @@ function App() {
               color="blue"
               size="4"
               radius="full"
-              className="w-14 h-14 shadow-xl text-3xl font-bold transition duration-300 ease-in-out transform hover:scale-105"
+              className="h-14 w-14 transform font-bold text-3xl shadow-xl transition duration-300 ease-in-out hover:scale-105"
             >
               {showFabMenu ? "−" : "+"}
             </Button>
             {/* メニュー項目 (FABボタンに対して絶対位置で配置) */}
             {showFabMenu && (
-              <div className="absolute bottom-full right-0 mb-3 flex flex-col items-end space-y-3">
+              <div className="absolute right-0 bottom-full mb-3 flex flex-col items-end space-y-3">
                 <Button
                   onClick={() => {
                     setShowAddForm(true);
@@ -466,15 +380,15 @@ function App() {
                   color="green"
                   size="2"
                   radius="full"
-                  className="shadow-lg text-sm whitespace-nowrap"
+                  className="whitespace-nowrap text-sm shadow-lg"
                 >
                   政策を追加
                 </Button>
-                <div className="bg-white rounded-full shadow-lg p-2">
+                <div className="rounded-full bg-white p-2 shadow-lg">
                   <select
                     value={sortOrder}
                     onChange={handleSortChange}
-                    className="p-2 rounded-full border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+                    className="rounded-full border border-gray-300 p-2 text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   >
                     <option value="newest">新しい順</option>
                     <option value="popularity_desc">人気度が高い順</option>

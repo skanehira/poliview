@@ -1,6 +1,5 @@
-import { useMemo, useState, useEffect } from "react";
 import { Button } from "@radix-ui/themes";
-import { DetailedFinanceModal } from "./DetailedFinanceModal";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -16,6 +15,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { DetailedFinanceModal } from "./DetailedFinanceModal";
 
 import {
   DUMMY_FINANCE_DATA_MONTHLY,
@@ -178,14 +178,14 @@ export const FinanceChart: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+    <div className="mb-6 rounded-lg bg-white p-6 shadow-lg">
+      <h2 className="mb-4 font-bold text-2xl text-gray-800">
         市政の収支と財政健全性
       </h2>
 
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-3 sm:space-y-0 sm:space-x-4">
+      <div className="mb-4 flex flex-col items-center justify-between space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
         {/* 時間単位選択 */}
-        <div className="flex space-x-2 w-full sm:w-auto justify-center sm:justify-start">
+        <div className="flex w-full justify-center space-x-2 sm:w-auto sm:justify-start">
           <Button
             onClick={() => setTimeUnit("year")}
             variant={timeUnit === "year" ? "solid" : "soft"}
@@ -205,15 +205,15 @@ export const FinanceChart: React.FC = () => {
         </div>
 
         {/* 期間選択ドロップダウン */}
-        <div className="flex items-center space-x-2 w-full sm:w-auto">
-          <label htmlFor="period-select" className="text-gray-700 font-medium">
+        <div className="flex w-full items-center space-x-2 sm:w-auto">
+          <label htmlFor="period-select" className="font-medium text-gray-700">
             期間:
           </label>
           <select
             id="period-select"
             value={selectedPeriod}
             onChange={(e) => setSelectedPeriod(e.target.value)}
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             {availablePeriods.map((period) => (
               <option key={period.value} value={period.value}>
@@ -224,7 +224,7 @@ export const FinanceChart: React.FC = () => {
         </div>
 
         {/* チャートタイプ選択ボタン */}
-        <div className="flex space-x-2 w-full sm:w-auto justify-center sm:justify-end">
+        <div className="flex w-full justify-center space-x-2 sm:w-auto sm:justify-end">
           <Button
             onClick={() => setChartType("bar")}
             variant={chartType === "bar" ? "solid" : "soft"}
@@ -245,14 +245,14 @@ export const FinanceChart: React.FC = () => {
       </div>
 
       {/* 歳入・歳出グラフセクション */}
-      <h3 className="text-xl font-bold text-gray-800 mb-4 mt-6 border-b pb-2">
+      <h3 className="mt-6 mb-4 border-b pb-2 font-bold text-gray-800 text-xl">
         歳入・歳出の内訳
       </h3>
       {chartType === "bar" && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* 歳入棒グラフ */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+          <div className="rounded-lg bg-gray-50 p-4 shadow-inner">
+            <h3 className="mb-4 text-center font-semibold text-gray-800 text-lg">
               歳入 (
               {availablePeriods.find((p) => p.value === selectedPeriod)?.label})
             </h3>
@@ -278,8 +278,8 @@ export const FinanceChart: React.FC = () => {
           </div>
 
           {/* 歳出棒グラフ */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+          <div className="rounded-lg bg-gray-50 p-4 shadow-inner">
+            <h3 className="mb-4 text-center font-semibold text-gray-800 text-lg">
               歳出 (
               {availablePeriods.find((p) => p.value === selectedPeriod)?.label})
             </h3>
@@ -307,10 +307,10 @@ export const FinanceChart: React.FC = () => {
       )}
 
       {chartType === "pie" && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* 歳入円グラフ */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner flex flex-col items-center">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+          <div className="flex flex-col items-center rounded-lg bg-gray-50 p-4 shadow-inner">
+            <h3 className="mb-4 text-center font-semibold text-gray-800 text-lg">
               歳入内訳 (
               {availablePeriods.find((p) => p.value === selectedPeriod)?.label})
             </h3>
@@ -342,8 +342,8 @@ export const FinanceChart: React.FC = () => {
           </div>
 
           {/* 歳出円グラフ */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner flex flex-col items-center">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+          <div className="flex flex-col items-center rounded-lg bg-gray-50 p-4 shadow-inner">
+            <h3 className="mb-4 text-center font-semibold text-gray-800 text-lg">
               歳出内訳 (
               {availablePeriods.find((p) => p.value === selectedPeriod)?.label})
             </h3>
@@ -379,13 +379,13 @@ export const FinanceChart: React.FC = () => {
       {/* 財政健全性指標セクション (年単位のみ) */}
       {timeUnit === "year" && (
         <>
-          <h3 className="text-xl font-bold text-gray-800 mb-4 mt-8 border-b pb-2">
+          <h3 className="mt-8 mb-4 border-b pb-2 font-bold text-gray-800 text-xl">
             財政健全性指標の推移
           </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* 財政力指数と経常収支比率の推移 */}
-            <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
-              <h4 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+            <div className="rounded-lg bg-gray-50 p-4 shadow-inner">
+              <h4 className="mb-4 text-center font-semibold text-gray-800 text-lg">
                 財政力指数と経常収支比率の推移
               </h4>
               <ResponsiveContainer width="100%" height={300}>
@@ -442,8 +442,8 @@ export const FinanceChart: React.FC = () => {
             </div>
 
             {/* 公債費比率と基金残高の推移 */}
-            <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
-              <h4 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+            <div className="rounded-lg bg-gray-50 p-4 shadow-inner">
+              <h4 className="mb-4 text-center font-semibold text-gray-800 text-lg">
                 公債費比率と基金残高の推移
               </h4>
               <ResponsiveContainer width="100%" height={300}>
@@ -500,67 +500,67 @@ export const FinanceChart: React.FC = () => {
           </div>
 
           {/* 財政健全性指標の概要テーブル */}
-          <h4 className="text-lg font-semibold text-gray-800 mb-4 mt-8">
+          <h4 className="mt-8 mb-4 font-semibold text-gray-800 text-lg">
             主要財政指標 ({currentYearForIndicators}年度)
           </h4>
           {filteredIndicators ? (
-            <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-md">
               <table className="min-w-full bg-white">
-                <thead className="bg-gray-100 border-b border-gray-200">
+                <thead className="border-gray-200 border-b bg-gray-100">
                   <tr>
-                    <th className="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left font-medium text-gray-600 text-sm uppercase tracking-wider">
                       指標
                     </th>
-                    <th className="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left font-medium text-gray-600 text-sm uppercase tracking-wider">
                       値
                     </th>
-                    <th className="py-3 px-4 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left font-medium text-gray-600 text-sm uppercase tracking-wider">
                       説明
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   <tr>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 text-sm">
                       財政力指数
                     </td>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-3 text-gray-700 text-sm">
                       {formatIndex(filteredIndicators.fiscalCapacity)}
                     </td>
-                    <td className="py-3 px-4 text-sm text-gray-700">
+                    <td className="px-4 py-3 text-gray-700 text-sm">
                       自治体がどれだけ自力で財源を確保できるかを示す指標。1に近いほど財政基盤が強い。
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 text-sm">
                       経常収支比率
                     </td>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-3 text-gray-700 text-sm">
                       {formatRatio(filteredIndicators.currentBalanceRatio)}
                     </td>
-                    <td className="py-3 px-4 text-sm text-gray-700">
+                    <td className="px-4 py-3 text-gray-700 text-sm">
                       経常的な収入が経常的な支出にどれだけ使われているかを示す指標。低いほど財政に余裕がある。
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 text-sm">
                       公債費比率
                     </td>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-3 text-gray-700 text-sm">
                       {formatRatio(filteredIndicators.publicDebtRatio)}
                     </td>
-                    <td className="py-3 px-4 text-sm text-gray-700">
+                    <td className="px-4 py-3 text-gray-700 text-sm">
                       歳入に占める借金返済額の割合。高いと将来の財政を圧迫する可能性。
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 text-sm">
                       基金残高
                     </td>
-                    <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-3 text-gray-700 text-sm">
                       {formatCurrency(filteredIndicators.fundBalance)}
                     </td>
-                    <td className="py-3 px-4 text-sm text-gray-700">
+                    <td className="px-4 py-3 text-gray-700 text-sm">
                       将来の特定目的のために積み立てられた貯蓄の残高。多いほど財政的余裕がある。
                     </td>
                   </tr>
@@ -568,7 +568,7 @@ export const FinanceChart: React.FC = () => {
               </table>
             </div>
           ) : (
-            <p className="text-center text-gray-600 text-sm mt-4">
+            <p className="mt-4 text-center text-gray-600 text-sm">
               選択された年度の財政健全性指標データはありません。
             </p>
           )}

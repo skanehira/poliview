@@ -1,20 +1,21 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FinanceChart } from "../FinanceChart";
 import "@testing-library/jest-dom";
+import type { JSX } from "react";
 
 // RechartsのモッキングでResponsiveContainerを含める必要がある
 vi.mock("recharts", () => ({
-  BarChart: ({ children }: any) => (
+  BarChart: ({ children }: { children: JSX.Element }) => (
     <div data-testid="bar-chart">{children}</div>
   ),
-  PieChart: ({ children }: any) => (
+  PieChart: ({ children }: { children: JSX.Element }) => (
     <div data-testid="pie-chart">{children}</div>
   ),
-  LineChart: ({ children }: any) => (
+  LineChart: ({ children }: { children: JSX.Element }) => (
     <div data-testid="line-chart">{children}</div>
   ),
-  ResponsiveContainer: ({ children }: any) => (
+  ResponsiveContainer: ({ children }: { children: JSX.Element }) => (
     <div data-testid="responsive-container">{children}</div>
   ),
   Bar: () => <div data-testid="bar" />,
@@ -30,7 +31,15 @@ vi.mock("recharts", () => ({
 
 // DetailedFinanceModalのモッキング
 vi.mock("../DetailedFinanceModal", () => ({
-  DetailedFinanceModal: ({ isOpen, type, category }: any) =>
+  DetailedFinanceModal: ({
+    isOpen,
+    type,
+    category,
+  }: {
+    isOpen: boolean;
+    type: string;
+    category: string;
+  }) =>
     isOpen ? (
       <div data-testid="detailed-finance-modal">
         Modal: {type} - {category}

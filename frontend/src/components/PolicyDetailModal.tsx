@@ -1,11 +1,11 @@
 import { Button, Dialog } from "@radix-ui/themes";
-import { PolicySummarySection } from "./PolicySummarySection";
+import type { Policy } from "../types/policy";
 import { PolicyCommentsSection } from "./PolicyCommentsSection";
 import {
-  PolicyMetadataSection,
   PolicyBenefitsSection,
+  PolicyMetadataSection,
 } from "./PolicyMetadataSection";
-import type { Policy } from "../types/policy";
+import { PolicySummarySection } from "./PolicySummarySection";
 
 interface PolicyDetailModalProps {
   policy: Policy | null;
@@ -43,13 +43,13 @@ export function PolicyDetailModal({
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Content
         maxWidth="48rem"
-        className="max-h-[90vh] overflow-y-auto relative"
+        className="relative max-h-[90vh] overflow-y-auto"
       >
         <Dialog.Description className="sr-only">
           政策の詳細情報、メタデータ、コメントを表示
         </Dialog.Description>
-        <div className="flex justify-between items-start mb-4">
-          <Dialog.Title className="text-2xl font-bold text-blue-700">
+        <div className="mb-4 flex items-start justify-between">
+          <Dialog.Title className="font-bold text-2xl text-blue-700">
             {policy.title}
           </Dialog.Title>
           <Dialog.Close>

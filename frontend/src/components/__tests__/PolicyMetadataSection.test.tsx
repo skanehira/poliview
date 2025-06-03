@@ -1,11 +1,11 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
 import { Theme } from "@radix-ui/themes";
-import {
-  PolicyMetadataSection,
-  PolicyBenefitsSection,
-} from "../PolicyMetadataSection";
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import type { Policy } from "../../types/policy";
+import {
+  PolicyBenefitsSection,
+  PolicyMetadataSection,
+} from "../PolicyMetadataSection";
 
 function renderWithTheme(component: React.ReactElement) {
   return render(<Theme>{component}</Theme>);

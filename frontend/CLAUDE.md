@@ -7,12 +7,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Essential Commands
 - `npm run dev` - Start development server with hot reload
 - `npm run build` - Build for production (includes TypeScript compilation)
-- `npm run lint` - Lint code using ESLint
+- `npm run lint` - Lint code using Biome
+- `npm run lint:fix` - Auto-fix linting issues with Biome
+- `npm run format` - Format code using Biome
+- `npm run check` - Run both linting and formatting checks
+- `npm run check:fix` - Auto-fix both linting and formatting issues
 - `npm run preview` - Preview production build locally
 
 ### Code Quality
-- Use Biome for additional formatting and linting (`@biomejs/biome` is configured)
-- ESLint configuration includes React-specific rules and TypeScript support
+- Uses Biome for linting, formatting, and import organization
+- Migrated from ESLint to Biome for unified tooling
 - Always run `npm run lint` and `npm run build` before committing to ensure code quality
 
 ## Architecture Overview
@@ -65,7 +69,8 @@ This is a municipal policy visualization application with two main sections:
 
 ### Code Review Checklist
 - 作業完了後、必ず以下の作業をやってほしい
-  - 型チェックして問題あれば修正
+  - ビルドが通ること
+  - 型チェックが通ること（テストも含む）
   - formatする
   - テストが通らない箇所があれば修正
   - 上記のチェックが問題ない場合はコミットする

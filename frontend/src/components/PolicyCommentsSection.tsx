@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { Button } from "@radix-ui/themes";
-import type { Policy, Comment } from "../types/policy";
+import { useState } from "react";
+import type { Comment, Policy } from "../types/policy";
 
 interface PolicyCommentsSectionProps {
   policy: Policy;
@@ -25,11 +25,11 @@ interface CommentItemProps {
 
 function CommentItem({ comment, onVoteComment, policyId }: CommentItemProps) {
   return (
-    <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-      <p className="text-sm font-semibold text-gray-700">{comment.author}</p>
-      <p className="text-xs text-gray-500 mb-1">{comment.timestamp}</p>
+    <div className="rounded-lg border border-gray-100 bg-gray-50 p-3">
+      <p className="font-semibold text-gray-700 text-sm">{comment.author}</p>
+      <p className="mb-1 text-gray-500 text-xs">{comment.timestamp}</p>
       <p className="text-gray-800">{comment.text}</p>
-      <div className="flex space-x-2 mt-2">
+      <div className="mt-2 flex space-x-2">
         <Button
           onClick={() => onVoteComment(policyId, comment.id, "up")}
           variant="ghost"
@@ -74,10 +74,10 @@ function CommentForm({ policyId, onAddComment }: CommentFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-4 rounded-lg shadow-md border border-gray-200"
+      className="rounded-lg border border-gray-200 bg-white p-4 shadow-md"
     >
       <textarea
-        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mb-3 resize-y"
+        className="mb-3 w-full resize-y rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
         rows={3}
         placeholder="この政策に対するあなたの意見を投稿してください..."
         value={commentText}
@@ -88,7 +88,7 @@ function CommentForm({ policyId, onAddComment }: CommentFormProps) {
         <label className="flex items-center text-gray-700 text-sm">
           <input
             type="checkbox"
-            className="form-checkbox h-4 w-4 text-blue-600 rounded"
+            className="form-checkbox h-4 w-4 rounded text-blue-600"
             checked={isAnonymous}
             onChange={(e) => setIsAnonymous(e.target.checked)}
           />
@@ -108,9 +108,9 @@ export function PolicyCommentsSection({
   onAddComment,
 }: PolicyCommentsSectionProps) {
   return (
-    <div className="mt-8 border-t pt-6 border-gray-200">
-      <h3 className="text-xl font-bold text-gray-800 mb-4">市民の声</h3>
-      <div className="space-y-4 mb-6 max-h-60 overflow-y-auto pr-2">
+    <div className="mt-8 border-gray-200 border-t pt-6">
+      <h3 className="mb-4 font-bold text-gray-800 text-xl">市民の声</h3>
+      <div className="mb-6 max-h-60 space-y-4 overflow-y-auto pr-2">
         {policy.comments && policy.comments.length > 0 ? (
           policy.comments
             .slice()

@@ -5,7 +5,10 @@ import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import App from "./App.tsx";
 
-createRoot(document.getElementById("root")!).render(
+const root = document.getElementById("root");
+if (!root) throw new Error("Root element not found");
+
+createRoot(root).render(
   <StrictMode>
     <Theme accentColor="blue" grayColor="slate" radius="medium" scaling="100%">
       <App />

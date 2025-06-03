@@ -1,13 +1,13 @@
 import {
   Button,
   Dialog,
-  TextField,
-  TextArea,
   Flex,
   Grid,
   Text,
+  TextArea,
+  TextField,
 } from "@radix-ui/themes";
-import { useState, type FormEvent } from "react";
+import { type FormEvent, useState } from "react";
 import type { NewPolicy } from "../types/policy";
 
 interface PolicyAddModalProps {
@@ -120,7 +120,7 @@ export function PolicyAddModal({
             新しい政策を追加するためのフォーム
           </Dialog.Description>
           <Flex justify="between" align="start" mb="4">
-            <Dialog.Title className="text-xl font-semibold text-blue-700">
+            <Dialog.Title className="font-semibold text-blue-700 text-xl">
               新しい政策を追加
             </Dialog.Title>
             <Dialog.Close>
@@ -281,7 +281,7 @@ export function PolicyAddModal({
                   name="status"
                   value={newPolicyData.status}
                   onChange={handleFormChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   required
                 >
                   <option value="進行中">進行中</option>
@@ -306,10 +306,10 @@ export function PolicyAddModal({
           onOpenChange={(open) => !open && handleCancelDiscard()}
         >
           <Dialog.Content maxWidth="24rem" className="text-center">
-            <Dialog.Title className="text-lg font-semibold mb-4">
+            <Dialog.Title className="mb-4 font-semibold text-lg">
               確認
             </Dialog.Title>
-            <Dialog.Description className="text-gray-700 mb-6">
+            <Dialog.Description className="mb-6 text-gray-700">
               未保存の変更があります。破棄して閉じますか？
             </Dialog.Description>
             <Flex justify="center" gap="4">

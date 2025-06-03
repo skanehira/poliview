@@ -10,8 +10,8 @@ import {
   YAxis,
 } from "recharts";
 import {
-  DUMMY_DETAILED_REVENUES,
   DUMMY_DETAILED_EXPENDITURES,
+  DUMMY_DETAILED_REVENUES,
 } from "../data/expenditures";
 
 interface DetailedFinanceModalProps {
@@ -59,8 +59,8 @@ export function DetailedFinanceModal({
           <Dialog.Description className="sr-only">
             {category}の詳細な財務データと内訳を表示
           </Dialog.Description>
-          <div className="flex justify-between items-start mb-4">
-            <Dialog.Title className="text-xl font-bold text-gray-800">
+          <div className="mb-4 flex items-start justify-between">
+            <Dialog.Title className="font-bold text-gray-800 text-xl">
               {category}の詳細 ({period})
             </Dialog.Title>
             <Dialog.Close>
@@ -90,8 +90,8 @@ export function DetailedFinanceModal({
           {category}の詳細な{isRevenue ? "歳入" : "歳出"}
           データをチャートと内訳で表示
         </Dialog.Description>
-        <div className="flex justify-between items-start mb-4">
-          <Dialog.Title className="text-xl font-bold text-gray-800">
+        <div className="mb-4 flex items-start justify-between">
+          <Dialog.Title className="font-bold text-gray-800 text-xl">
             {category}の詳細 ({period}) - {isRevenue ? "歳入" : "歳出"}
           </Dialog.Title>
           <Dialog.Close>
@@ -122,8 +122,8 @@ export function DetailedFinanceModal({
         </div>
 
         <div>
-          <h4 className="text-lg font-semibold text-gray-800 mb-2">内訳</h4>
-          <ul className="list-disc list-inside text-gray-700">
+          <h4 className="mb-2 font-semibold text-gray-800 text-lg">内訳</h4>
+          <ul className="list-inside list-disc text-gray-700">
             {Object.entries(detailData).map(([name, value]) => (
               <li key={name}>
                 {name}: {formatCurrency(value)}

@@ -1,5 +1,5 @@
-import ReactMarkdown from "react-markdown";
 import { Button } from "@radix-ui/themes";
+import ReactMarkdown from "react-markdown";
 import type { Policy } from "../types/policy";
 
 interface PolicySummarySectionProps {
@@ -25,7 +25,7 @@ export function PolicySummarySection({
 
   return (
     <div className="mb-4">
-      <div className="flex items-center space-x-2 mb-2">
+      <div className="mb-2 flex items-center space-x-2">
         <Button
           onClick={() => onSummarizePolicy(policy)}
           variant="solid"
@@ -36,11 +36,12 @@ export function PolicySummarySection({
           {isSummarizing ? (
             <>
               <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
               >
+                <title>Loading...</title>
                 <circle
                   className="opacity-25"
                   cx="12"
@@ -73,8 +74,8 @@ export function PolicySummarySection({
         )}
       </div>
       {showSimplifiedSummary && simplifiedPolicyText && (
-        <div className="mt-2 p-4 bg-purple-50 rounded-lg border border-purple-200">
-          <h4 className="text-md font-semibold text-purple-800 mb-2">
+        <div className="mt-2 rounded-lg border border-purple-200 bg-purple-50 p-4">
+          <h4 className="mb-2 font-semibold text-md text-purple-800">
             高校生向け要約:
           </h4>
           <ReactMarkdown>{simplifiedPolicyText}</ReactMarkdown>

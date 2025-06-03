@@ -21,16 +21,16 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
 
   return (
     <>
-      <p className="text-md text-gray-600 mb-4">年度: {policy.year}</p>
+      <p className="mb-4 text-gray-600 text-md">年度: {policy.year}</p>
 
       {/* ステータス表示 */}
       {policy.status && (
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
             ステータス
           </h3>
           <span
-            className={`text-md font-bold px-3 py-1 rounded-full ${getStatusClasses(policy.status)}`}
+            className={`rounded-full px-3 py-1 font-bold text-md ${getStatusClasses(policy.status)}`}
           >
             {policy.status}
           </span>
@@ -40,8 +40,8 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
       {/* 予算表示 */}
       {policy.budget !== undefined && policy.budget !== null && (
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">予算</h3>
-          <p className="text-gray-700 text-lg font-bold">
+          <h3 className="mb-2 font-semibold text-gray-800 text-lg">予算</h3>
+          <p className="font-bold text-gray-700 text-lg">
             {policy.budget.toLocaleString()} 円
           </p>
         </div>
@@ -54,10 +54,10 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
           totalVotes > 0 ? ((policy.upvotes || 0) / totalVotes) * 100 : 0;
         return (
           <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">人気度</h3>
+            <h3 className="mb-2 font-semibold text-gray-800 text-lg">人気度</h3>
             {popularity !== null ? (
               <span
-                className={`text-md font-bold ${
+                className={`font-bold text-md ${
                   popularity >= 70
                     ? "text-green-600"
                     : popularity >= 40
@@ -68,11 +68,11 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
                 {popularity.toFixed(0)}%
               </span>
             ) : (
-              <span className="text-md font-semibold text-gray-500">
+              <span className="font-semibold text-gray-500 text-md">
                 評価なし
               </span>
             )}
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+            <div className="mt-2 h-2.5 w-full rounded-full bg-gray-200">
               <div
                 className={`h-2.5 rounded-full ${
                   popularity >= 70
@@ -89,17 +89,17 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
       })()}
 
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">目的</h3>
+        <h3 className="mb-2 font-semibold text-gray-800 text-lg">目的</h3>
         <p className="text-gray-700">{policy.purpose}</p>
       </div>
 
       {/* 解決したい問題点 */}
       {policy.problems && policy.problems.length > 0 && (
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
             解決したい問題点
           </h3>
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-inside list-disc text-gray-700">
             {policy.problems.map((problem) => (
               <li key={problem}>{problem}</li>
             ))}
@@ -108,14 +108,14 @@ export function PolicyMetadataSection({ policy }: PolicyMetadataSectionProps) {
       )}
 
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">概要</h3>
+        <h3 className="mb-2 font-semibold text-gray-800 text-lg">概要</h3>
         <p className="text-gray-700">{policy.overview}</p>
       </div>
 
       {/* 具体的計画の内容 */}
       {policy.detailedPlan && (
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
             具体的計画の内容
           </h3>
           <p className="text-gray-700">{policy.detailedPlan}</p>
@@ -132,10 +132,10 @@ export function PolicyBenefitsSection({ policy }: PolicyMetadataSectionProps) {
       {/* メリット */}
       {policy.benefits && policy.benefits.length > 0 && (
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-green-700 mb-2">
+          <h3 className="mb-2 font-semibold text-green-700 text-lg">
             メリット
           </h3>
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-inside list-disc text-gray-700">
             {policy.benefits.map((benefit) => (
               <li key={benefit}>{benefit}</li>
             ))}
@@ -146,10 +146,10 @@ export function PolicyBenefitsSection({ policy }: PolicyMetadataSectionProps) {
       {/* デメリット */}
       {policy.drawbacks && policy.drawbacks.length > 0 && (
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-red-700 mb-2">
+          <h3 className="mb-2 font-semibold text-lg text-red-700">
             デメリット
           </h3>
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-inside list-disc text-gray-700">
             {policy.drawbacks.map((drawback) => (
               <li key={drawback}>{drawback}</li>
             ))}
@@ -160,14 +160,14 @@ export function PolicyBenefitsSection({ policy }: PolicyMetadataSectionProps) {
       {/* キーワード */}
       {policy.keywords && policy.keywords.length > 0 && (
         <div className="mt-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
             関連キーワード
           </h3>
           <div className="flex flex-wrap gap-2">
             {policy.keywords.map((keyword) => (
               <span
                 key={keyword}
-                className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full"
+                className="rounded-full bg-blue-100 px-3 py-1 font-medium text-blue-800 text-sm"
               >
                 {keyword}
               </span>
@@ -179,13 +179,13 @@ export function PolicyBenefitsSection({ policy }: PolicyMetadataSectionProps) {
       {/* 関連イベント */}
       {policy.relatedEvents && policy.relatedEvents.length > 0 && (
         <div className="mt-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          <h3 className="mb-2 font-semibold text-gray-800 text-lg">
             政策に関するイベント
           </h3>
-          <div className="relative border-l-2 border-blue-300 pl-6">
+          <div className="relative border-blue-300 border-l-2 pl-6">
             {policy.relatedEvents.map((event) => (
               <div key={event} className="mb-4 last:mb-0">
-                <div className="absolute -left-2 top-0 mt-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white" />
+                <div className="-left-2 absolute top-0 mt-1 h-4 w-4 rounded-full border-2 border-white bg-blue-500" />
                 <p className="text-gray-700">{event}</p>
               </div>
             ))}

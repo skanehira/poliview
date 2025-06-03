@@ -16,9 +16,9 @@ export function ConfirmationModal({
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onCancel()}>
       <Dialog.Content maxWidth="24rem" className="text-center">
-        <Dialog.Title className="text-lg font-semibold mb-4">確認</Dialog.Title>
+        <Dialog.Title className="mb-4 font-semibold text-lg">確認</Dialog.Title>
 
-        <Dialog.Description className="text-gray-700 mb-6">
+        <Dialog.Description className="mb-6 text-gray-700">
           {message}
         </Dialog.Description>
 
