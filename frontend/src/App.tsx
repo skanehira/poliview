@@ -7,6 +7,7 @@ import {
 } from "react";
 import { Button } from "@radix-ui/themes";
 import { PolicyDetailModal } from "./components/PolicyDetailModal";
+import { ConfirmationModal } from "./components/ConfirmationModal";
 import type { Policy, NewPolicy, Policies } from "./types/policy";
 import {
   Bar,
@@ -33,39 +34,6 @@ import {
 } from "./data/finances";
 import { DUMMY_POLICIES } from "./data/policies";
 
-// 確認ダイアログコンポーネントの型定義
-interface ConfirmationModalProps {
-  message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-  isOpen: boolean;
-}
-
-// 確認ダイアログコンポーネント
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
-  message,
-  onConfirm,
-  onCancel,
-  isOpen,
-}) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-[9999]">
-      <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full text-center">
-        <p className="text-lg font-semibold mb-4">{message}</p>
-        <div className="flex justify-center space-x-4">
-          <Button onClick={onConfirm} color="red" variant="solid" size="2">
-            はい
-          </Button>
-          <Button onClick={onCancel} color="gray" variant="soft" size="2">
-            いいえ
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // 詳細財務モーダルコンポーネントの型定義
 interface DetailedFinanceModalProps {
