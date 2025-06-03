@@ -62,3 +62,10 @@ This is a municipal policy visualization application with two main sections:
 - LLM integration requires API key configuration for policy summarization
 - Chart interactions support click-through to detailed modal views
 - Responsive design with mobile-first approach using Tailwind breakpoints
+
+### Code Review Checklist
+- 作業完了後、必ず以下の作業をやってほしい
+  - 型チェックして問題あれば修正
+  - formatする
+  - テストが通らない箇所があれば修正
+  - 上記のチェックが問題ない場合はコミットする
