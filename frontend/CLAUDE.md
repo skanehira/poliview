@@ -73,4 +73,4 @@ This is a municipal policy visualization application with two main sections:
   - 型チェックが通ること（テストも含む）
   - formatする
   - テストが通らない箇所があれば修正
-  - 上記のチェックが問題ない場合はコミットする
+- 次の作業を始める前にコミットする
