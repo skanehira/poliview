@@ -23,7 +23,7 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={true}
-      />
+      />,
     );
 
     expect(screen.getByText("確認")).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={false}
-      />
+      />,
     );
 
     expect(screen.queryByText("確認")).not.toBeInTheDocument();
@@ -55,7 +55,7 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={true}
-      />
+      />,
     );
 
     const confirmButton = screen.getByRole("button", { name: "はい" });
@@ -73,7 +73,7 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={true}
-      />
+      />,
     );
 
     const cancelButton = screen.getByRole("button", { name: "いいえ" });
@@ -89,7 +89,7 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={true}
-      />
+      />,
     );
 
     // Simulate dialog close by changing isOpen to false
@@ -101,7 +101,7 @@ describe("ConfirmationModal", () => {
           onCancel={mockOnCancel}
           isOpen={false}
         />
-      </Theme>
+      </Theme>,
     );
 
     // The onOpenChange handler should call onCancel when dialog is closed
@@ -118,7 +118,7 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={true}
-      />
+      />,
     );
 
     expect(screen.getByText(customMessage)).toBeInTheDocument();
@@ -131,7 +131,7 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={true}
-      />
+      />,
     );
 
     const confirmButton = screen.getByRole("button", { name: "はい" });
@@ -149,12 +149,12 @@ describe("ConfirmationModal", () => {
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isOpen={true}
-      />
+      />,
     );
 
     // Check for Dialog.Title
     expect(screen.getByText("確認")).toBeInTheDocument();
-    
+
     // Check for Dialog.Description
     expect(screen.getByText("テストメッセージ")).toBeInTheDocument();
   });

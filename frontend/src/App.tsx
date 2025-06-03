@@ -8,6 +8,7 @@ import {
 import { Button } from "@radix-ui/themes";
 import { PolicyDetailModal } from "./components/PolicyDetailModal";
 import { ConfirmationModal } from "./components/ConfirmationModal";
+import { DetailedFinanceModal } from "./components/DetailedFinanceModal";
 import type { Policy, NewPolicy, Policies } from "./types/policy";
 import {
   Bar,
@@ -25,125 +26,12 @@ import {
   YAxis,
 } from "recharts";
 
-import { DUMMY_DETAILED_REVENUES } from "./data/expenditures";
-import { DUMMY_DETAILED_EXPENDITURES } from "./data/expenditures";
 import {
   DUMMY_FINANCE_DATA_MONTHLY,
   DUMMY_FINANCE_DATA_YEARLY,
   DUMMY_FINANCE_INDICATORS,
 } from "./data/finances";
 import { DUMMY_POLICIES } from "./data/policies";
-
-
-// 詳細財務モーダルコンポーネントの型定義
-interface DetailedFinanceModalProps {
-  type: "revenue" | "expenditure";
-  category: string;
-  period: string | number;
-  onClose: () => void;
-}
-
-// 詳細財務モーダルコンポーネント (歳入・歳出共通)
-const DetailedFinanceModal: React.FC<DetailedFinanceModalProps> = ({
-  type,
-  category,
-  period,
-  onClose,
-}) => {
-  const isRevenue = type === "revenue";
-  const detailData = isRevenue
-    ? DUMMY_DETAILED_REVENUES[
-        category as keyof typeof DUMMY_DETAILED_REVENUES
-      ]?.[
-        period as keyof (typeof DUMMY_DETAILED_REVENUES)[keyof typeof DUMMY_DETAILED_REVENUES]
-      ]
-    : DUMMY_DETAILED_EXPENDITURES[
-        category as keyof typeof DUMMY_DETAILED_EXPENDITURES
-      ]?.[
-        period as keyof (typeof DUMMY_DETAILED_EXPENDITURES)[keyof typeof DUMMY_DETAILED_EXPENDITURES]
-      ];
-
-  const formatCurrency = (value: number): string => {
-    if (value >= 100000000) {
-      return `${(value / 100000000).toFixed(1)}億円`;
-    }
-    if (value >= 10000) {
-      return `${(value / 10000).toFixed(0)}万円`;
-    }
-    return `${value}円`;
-  };
-
-  if (!detailData) {
-    return (
-      <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg shadow-xl p-6 max-w-xl w-full relative">
-          <Button
-            onClick={onClose}
-            variant="ghost"
-            size="1"
-            className="absolute top-3 right-3"
-          >
-            &times;
-          </Button>
-          <h3 className="text-xl font-bold text-gray-800 mb-4">
-            {category}の詳細 ({period})
-          </h3>
-          <p className="text-gray-700">この期間のデータはありません。</p>
-        </div>
-      </div>
-    );
-  }
-
-  const chartData = Object.entries(detailData).map(([name, value]) => ({
-    name,
-    value,
-  }));
-
-  return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl p-6 max-w-xl w-full relative">
-        <Button
-          onClick={onClose}
-          variant="ghost"
-          size="1"
-          className="absolute top-3 right-3"
-        >
-          &times;
-        </Button>
-        <h3 className="text-xl font-bold text-gray-800 mb-4">
-          {category}の詳細 ({period}) - {isRevenue ? "歳入" : "歳出"}
-        </h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart
-            data={chartData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis tickFormatter={formatCurrency} />
-            <Tooltip formatter={formatCurrency} />
-            <Legend />
-            <Bar
-              dataKey="value"
-              fill={isRevenue ? "#8884d8" : "#FF6384"}
-              name="金額"
-            />
-          </BarChart>
-        </ResponsiveContainer>
-        <div className="mt-4">
-          <h4 className="text-lg font-semibold text-gray-800 mb-2">内訳</h4>
-          <ul className="list-disc list-inside text-gray-700">
-            {Object.entries(detailData).map(([name, value]) => (
-              <li key={name}>
-                {name}: {formatCurrency(value)}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // 収支グラフコンポーネント
 const FinanceChart: React.FC = () => {
@@ -698,14 +586,13 @@ const FinanceChart: React.FC = () => {
         </>
       )}
 
-      {showDetailModal && (
-        <DetailedFinanceModal
-          type={detailedType || "revenue"}
-          category={detailedCategory || ""}
-          period={selectedPeriod}
-          onClose={() => setShowDetailModal(false)}
-        />
-      )}
+      <DetailedFinanceModal
+        type={detailedType || "revenue"}
+        category={detailedCategory || ""}
+        period={selectedPeriod}
+        onClose={() => setShowDetailModal(false)}
+        isOpen={showDetailModal}
+      />
     </div>
   );
 };
