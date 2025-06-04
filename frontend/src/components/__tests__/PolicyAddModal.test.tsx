@@ -1,5 +1,5 @@
 import { Theme } from "@radix-ui/themes";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PolicyAddModal } from "../PolicyAddModal";
@@ -127,8 +127,6 @@ describe("PolicyAddModal", () => {
   });
 
   it("submits form with correct data structure", async () => {
-    const user = userEvent.setup();
-
     renderWithTheme(
       <PolicyAddModal
         isOpen={true}

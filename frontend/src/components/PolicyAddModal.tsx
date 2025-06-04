@@ -124,6 +124,21 @@ export function PolicyAddModal({
               </Button>
             </Dialog.Close>
           </Flex>
+          <Dialog.Description
+            style={{
+              position: "absolute",
+              width: "1px",
+              height: "1px",
+              padding: 0,
+              margin: "-1px",
+              overflow: "hidden",
+              clip: "rect(0, 0, 0, 0)",
+              whiteSpace: "nowrap",
+              borderWidth: 0,
+            }}
+          >
+            新しい政策を追加するためのフォーム
+          </Dialog.Description>
 
           <Form.Root onSubmit={handleSubmit}>
             <Grid columns={{ initial: "1", md: "2" }} gap="4">
