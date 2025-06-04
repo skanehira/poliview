@@ -24,7 +24,7 @@ interface RevenueExpenditureChartsProps {
   chartType: ChartType;
   filteredRevenues: FinanceData[];
   filteredExpenditures: FinanceData[];
-  selectedPeriod: string | number;
+  selectedPeriod: number;
   availablePeriods: PeriodOption[];
   onChartClick: (data: ChartClickData, type: "revenue" | "expenditure") => void;
 }

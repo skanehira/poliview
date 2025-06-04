@@ -26,11 +26,7 @@ describe("FloatingActionButton", () => {
 
     const fabButton = screen.getByRole("button", { name: "+" });
     expect(fabButton).toBeInTheDocument();
-    expect(fabButton).toHaveClass(
-      "rt-reset",
-      "rt-BaseButton",
-      "rt-Button",
-    );
+    expect(fabButton).toHaveClass("rt-reset", "rt-BaseButton", "rt-Button");
   });
 
   it("renders the FAB button with minus icon when menu is open", () => {
@@ -52,7 +48,9 @@ describe("FloatingActionButton", () => {
 
   it("toggles FAB menu state correctly", () => {
     // Test opening menu
-    const { rerender } = renderWithTheme(<FloatingActionButton {...defaultProps} />);
+    const { rerender } = renderWithTheme(
+      <FloatingActionButton {...defaultProps} />,
+    );
 
     const fabButton = screen.getByRole("button", { name: "+" });
     fireEvent.click(fabButton);
@@ -60,7 +58,11 @@ describe("FloatingActionButton", () => {
 
     // Test closing menu
     const propsWithOpenMenu = { ...defaultProps, showFabMenu: true };
-    rerender(<Theme><FloatingActionButton {...propsWithOpenMenu} /></Theme>);
+    rerender(
+      <Theme>
+        <FloatingActionButton {...propsWithOpenMenu} />
+      </Theme>,
+    );
 
     const fabButtonWithMenu = screen.getByRole("button", { name: "−" });
     fireEvent.click(fabButtonWithMenu);
@@ -107,7 +109,7 @@ describe("FloatingActionButton", () => {
     // Test the internal behavior by checking that component renders properly
     const sortSelect = screen.getByRole("combobox");
     expect(sortSelect).toBeInTheDocument();
-    
+
     // The onSortChange would be called through the Radix Select.Root onValueChange
     // We can't easily test this in jsdom, so we just verify the component structure
   });
@@ -173,7 +175,7 @@ describe("FloatingActionButton", () => {
 
       const sortSelect = screen.getByRole("combobox");
       expect(sortSelect).toBeInTheDocument();
-      
+
       unmount();
     }
   });

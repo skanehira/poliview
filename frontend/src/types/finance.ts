@@ -18,7 +18,7 @@ export type ChartType = "bar" | "pie";
 export type FinanceType = "revenue" | "expenditure";
 
 export interface PeriodOption {
-  value: string | number;
+  value: number;
   label: string;
 }
 

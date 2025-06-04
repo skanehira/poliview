@@ -71,7 +71,9 @@ describe("PolicyAddModal", () => {
     );
 
     // Required fields by name attribute
-    expect(screen.getByDisplayValue(new Date().getFullYear().toString())).toBeInTheDocument(); // year field
+    expect(
+      screen.getByDisplayValue(new Date().getFullYear().toString()),
+    ).toBeInTheDocument(); // year field
 
     // Check field labels exist
     expect(screen.getByText("政策タイトル")).toBeInTheDocument();
@@ -85,15 +87,9 @@ describe("PolicyAddModal", () => {
     expect(
       screen.getByText("解決したい問題点 (カンマ区切り)"),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText("メリット (カンマ区切り)"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("デメリット (カンマ区切り)"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("キーワード (カンマ区切り)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("メリット (カンマ区切り)")).toBeInTheDocument();
+    expect(screen.getByText("デメリット (カンマ区切り)")).toBeInTheDocument();
+    expect(screen.getByText("キーワード (カンマ区切り)")).toBeInTheDocument();
     expect(
       screen.getByText("政策に関するイベント (カンマ区切り)"),
     ).toBeInTheDocument();
@@ -144,7 +140,7 @@ describe("PolicyAddModal", () => {
     // Just verify the submit button exists and modal renders correctly
     const submitButton = screen.getByRole("button", { name: "政策を保存" });
     expect(submitButton).toBeInTheDocument();
-    
+
     // Verify required fields exist
     expect(screen.getByText("政策タイトル")).toBeInTheDocument();
     expect(screen.getByText("政策の目的")).toBeInTheDocument();
@@ -162,7 +158,9 @@ describe("PolicyAddModal", () => {
 
     // Verify comma-separated field labels exist
     expect(screen.getByText("キーワード (カンマ区切り)")).toBeInTheDocument();
-    expect(screen.getByText("解決したい問題点 (カンマ区切り)")).toBeInTheDocument();
+    expect(
+      screen.getByText("解決したい問題点 (カンマ区切り)"),
+    ).toBeInTheDocument();
   });
 
   it("shows confirmation dialog when closing with unsaved changes", async () => {

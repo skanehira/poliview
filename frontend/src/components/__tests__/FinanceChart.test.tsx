@@ -48,15 +48,26 @@ vi.mock("../DetailedFinanceModal", () => ({
 }));
 
 vi.mock("../FinanceChartControls", () => ({
-  FinanceChartControls: ({ onTimeUnitChange, onChartTypeChange }: { 
-    onTimeUnitChange: (unit: string) => void, 
-    onChartTypeChange: (type: string) => void 
+  FinanceChartControls: ({
+    onTimeUnitChange,
+    onChartTypeChange,
+  }: {
+    onTimeUnitChange: (unit: string) => void;
+    onChartTypeChange: (type: string) => void;
   }) => (
     <div data-testid="finance-chart-controls">
-      <button type="button" onClick={() => onTimeUnitChange("year")}>年単位</button>
-      <button type="button" onClick={() => onTimeUnitChange("month")}>月単位</button>
-      <button type="button" onClick={() => onChartTypeChange("bar")}>棒グラフ</button>
-      <button type="button" onClick={() => onChartTypeChange("pie")}>円グラフ</button>
+      <button type="button" onClick={() => onTimeUnitChange("year")}>
+        年単位
+      </button>
+      <button type="button" onClick={() => onTimeUnitChange("month")}>
+        月単位
+      </button>
+      <button type="button" onClick={() => onChartTypeChange("bar")}>
+        棒グラフ
+      </button>
+      <button type="button" onClick={() => onChartTypeChange("pie")}>
+        円グラフ
+      </button>
       <span>期間:</span>
     </div>
   ),
@@ -196,7 +207,9 @@ describe("FinanceChart", () => {
     expect(screen.getByText("歳入・歳出の内訳")).toBeInTheDocument();
 
     // RevenueExpenditureChartsコンポーネントが表示されているかチェック
-    expect(screen.getByTestId("revenue-expenditure-charts")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("revenue-expenditure-charts"),
+    ).toBeInTheDocument();
   });
 
   it("renders financial indicators charts when in year mode", () => {

@@ -6,8 +6,29 @@ import {
 } from "../data/finances";
 import type { FinanceData, TimeUnit } from "../types/finance";
 
+// 選択された期間のデータをフィルタリング
+const getFilteredFinanceData = (
+  dataType: "revenues" | "expenditures",
+  unit: TimeUnit,
+  period: number,
+): FinanceData[] => {
+  const sourceData =
+    unit === "year"
+      ? DUMMY_FINANCE_DATA_YEARLY[dataType]
+      : DUMMY_FINANCE_DATA_MONTHLY[dataType];
+  if (unit === "year") {
+    return sourceData.filter((d) => d.year === period);
+  }
+  const year = Number(period.toString().substring(0, 4));
+  const month = Number(period.toString().substring(4, 6));
+
+  return sourceData.filter(
+    (d) => "month" in d && d.year === year && d.month === month,
+  );
+};
+
 export function useFinanceData(timeUnit: TimeUnit) {
-  const [selectedPeriod, setSelectedPeriod] = useState<string | number>("");
+  const [selectedPeriod, setSelectedPeriod] = useState<number>(0);
 
   // 利用可能な年度と月を生成
   const availablePeriods = useMemo(() => {
@@ -25,22 +46,22 @@ export function useFinanceData(timeUnit: TimeUnit) {
       return sortedYears.map((year) => ({ value: year, label: `${year}年度` }));
     }
 
-    const periods = new Set<string>();
+    const periods = new Set<number>();
     for (const year of sortedYears) {
       for (let month = 1; month <= 12; month++) {
         const hasData = DUMMY_FINANCE_DATA_MONTHLY.revenues.some(
           (d) => d.year === year && d.month === month,
         );
         if (hasData) {
-          periods.add(`${year}-${String(month).padStart(2, "0")}`);
+          periods.add(Number(`${year}${String(month).padStart(2, "0")}`));
         }
       }
     }
     return Array.from(periods)
-      .sort((a, b) => b.localeCompare(a))
+      .sort((a, b) => b - a)
       .map((period) => ({
         value: period,
-        label: `${period.split("-")[0]}年${period.split("-")[1]}月`,
+        label: `${period.toString().substring(0, 4)}年${period.toString().substring(4, 6)}月`,
       }));
   }, [timeUnit]);
 
@@ -49,36 +70,17 @@ export function useFinanceData(timeUnit: TimeUnit) {
     if (availablePeriods.length > 0) {
       setSelectedPeriod(availablePeriods[0].value);
     } else {
+      const now = new Date();
       if (timeUnit === "year") {
-        setSelectedPeriod(new Date().getFullYear());
+        setSelectedPeriod(now.getFullYear());
       } else {
-        setSelectedPeriod(
-          `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}`,
+        const currentMonth = Number(
+          `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, "0")}`,
         );
+        setSelectedPeriod(currentMonth);
       }
     }
   }, [timeUnit, availablePeriods]);
-
-  // 選択された期間のデータをフィルタリング
-  const getFilteredFinanceData = (
-    dataType: "revenues" | "expenditures",
-    unit: TimeUnit,
-    period: string | number,
-  ): FinanceData[] => {
-    const sourceData =
-      unit === "year"
-        ? DUMMY_FINANCE_DATA_YEARLY[dataType]
-        : DUMMY_FINANCE_DATA_MONTHLY[dataType];
-    if (unit === "year") {
-      return sourceData.filter((d) => d.year === period);
-    }
-    const [year, month] = (typeof period === "string" ? period : "")
-      .split("-")
-      .map(Number);
-    return sourceData.filter(
-      (d) => "month" in d && d.year === year && d.month === month,
-    );
-  };
 
   const filteredRevenues = getFilteredFinanceData(
     "revenues",

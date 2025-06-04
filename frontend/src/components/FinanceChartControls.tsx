@@ -5,7 +5,7 @@ interface FinanceChartControlsProps {
   timeUnit: TimeUnit;
   onTimeUnitChange: (unit: TimeUnit) => void;
   selectedPeriod: string | number;
-  onPeriodChange: (period: string | number) => void;
+  onPeriodChange: (period: number) => void;
   availablePeriods: PeriodOption[];
   chartType: ChartType;
   onChartTypeChange: (type: ChartType) => void;
@@ -54,8 +54,7 @@ export function FinanceChartControls({
         <Select.Root
           value={selectedPeriod.toString()}
           onValueChange={(value) => {
-            const isYear = timeUnit === "year";
-            onPeriodChange(isYear ? Number(value) : value);
+            onPeriodChange(Number(value));
           }}
         >
           <Select.Trigger style={{ minWidth: "200px" }} />
