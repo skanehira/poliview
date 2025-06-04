@@ -4,9 +4,14 @@ import "./index.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import App from "./App.tsx";
+import { scan } from "react-scan";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element not found");
+
+if (import.meta.env.DEV) {
+  scan({ enabled: true });
+}
 
 createRoot(root).render(
   <StrictMode>

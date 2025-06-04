@@ -59,7 +59,7 @@ export function Header({
               margin: 0,
             }}
           >
-            Poli View
+            PoliView
           </h1>
 
           {/* タブナビゲーション */}
