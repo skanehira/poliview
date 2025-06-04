@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build
-        run:
+        run: |-
           cd frontend
           npm run build
       - name: Setup Pages
