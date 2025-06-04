@@ -1,8 +1,19 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../Header";
 import "@testing-library/jest-dom";
+import { act } from "react";
+
+// Mock window.innerWidth for mobile/desktop tests
+const mockWindowWidth = (width: number) => {
+  Object.defineProperty(window, "innerWidth", {
+    writable: true,
+    configurable: true,
+    value: width,
+  });
+  window.dispatchEvent(new Event("resize"));
+};
 
 describe("Header", () => {
   const defaultProps = {
@@ -19,7 +30,7 @@ describe("Header", () => {
   it("renders the app title", () => {
     render(<Header {...defaultProps} />);
 
-    expect(screen.getByText("市政の可視化アプリ")).toBeInTheDocument();
+    expect(screen.getByText("Poli View")).toBeInTheDocument();
   });
 
   it("renders search input with placeholder", () => {
@@ -56,8 +67,10 @@ describe("Header", () => {
   it("renders both tab buttons", () => {
     render(<Header {...defaultProps} />);
 
-    expect(screen.getAllByText("政策一覧")).toHaveLength(2);
-    expect(screen.getAllByText("市政の収支")).toHaveLength(2);
+    const tabs = screen.getAllByRole("tab");
+    expect(tabs).toHaveLength(2);
+    expect(tabs[0]).toHaveTextContent("政策一覧");
+    expect(tabs[1]).toHaveTextContent("市政の収支");
   });
 
   it('shows policies tab as active when activeTab is "policies"', () => {
@@ -96,7 +109,8 @@ describe("Header", () => {
     };
     render(<Header {...props} />);
 
-    const policiesButton = screen.getAllByText("政策一覧")[0];
+    const tabs = screen.getAllByRole("tab");
+    const policiesButton = tabs[0];
     await user.click(policiesButton);
 
     expect(mockSetActiveTab).toHaveBeenCalledWith("policies");
@@ -112,7 +126,8 @@ describe("Header", () => {
     };
     render(<Header {...props} />);
 
-    const financeButton = screen.getAllByText("市政の収支")[0];
+    const tabs = screen.getAllByRole("tab");
+    const financeButton = tabs[1];
     await user.click(financeButton);
 
     expect(mockSetActiveTab).toHaveBeenCalledWith("finance");
@@ -151,5 +166,56 @@ describe("Header", () => {
     expect(searchInput).toBeInTheDocument();
     // Radix UI TextFieldでは、内部のinput要素に対してチェックする
     expect(searchInput).toHaveRole("textbox");
+  });
+
+  describe("Mobile responsiveness", () => {
+    it("renders search field below tabs on mobile", () => {
+      mockWindowWidth(375); // iPhone 14 Pro Max width
+      render(<Header {...defaultProps} />);
+
+      const header = screen.getByRole("banner");
+      const searchField = screen.getByPlaceholderText(
+        "キーワードで政策を検索...",
+      );
+
+      // モバイルでは検索フィールドが全幅になることを確認
+      const searchContainer = searchField.parentElement?.parentElement;
+      expect(searchContainer).toHaveStyle({ width: "100%" });
+    });
+
+    it("renders search field on the right on desktop", () => {
+      mockWindowWidth(1024); // Desktop width
+      render(<Header {...defaultProps} />);
+
+      const searchField = screen.getByPlaceholderText(
+        "キーワードで政策を検索...",
+      );
+
+      // デスクトップでは検索フィールドが固定幅になることを確認
+      const searchContainer = searchField.parentElement?.parentElement;
+      expect(searchContainer).toHaveStyle({ width: "16rem" });
+    });
+
+    it("adjusts layout when window is resized", async () => {
+      mockWindowWidth(1024); // Start with desktop
+      render(<Header {...defaultProps} />);
+
+      let searchField = screen.getByPlaceholderText(
+        "キーワードで政策を検索...",
+      );
+      let searchContainer = searchField.parentElement?.parentElement;
+      expect(searchContainer).toHaveStyle({ width: "16rem" });
+
+      // Resize to mobile
+      act(() => {
+        mockWindowWidth(375);
+      });
+
+      await waitFor(() => {
+        searchField = screen.getByPlaceholderText("キーワードで政策を検索...");
+        searchContainer = searchField.parentElement?.parentElement;
+        expect(searchContainer).toHaveStyle({ width: "100%" });
+      });
+    });
   });
 });

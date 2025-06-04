@@ -1,4 +1,5 @@
 import { TextField, Tabs } from "@radix-ui/themes";
+import { useEffect, useState } from "react";
 
 interface HeaderProps {
   searchTerm: string;
@@ -13,6 +14,18 @@ export function Header({
   activeTab,
   setActiveTab,
 }: HeaderProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <header
       style={{
@@ -34,27 +47,30 @@ export function Header({
           maxWidth: "1200px",
           margin: "0 auto",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "stretch" : "center",
+          justifyContent: isMobile ? "center" : "space-between",
           gap: "1rem",
         }}
       >
-        {/* 左側: タイトルとタブ */}
+        {/* 上段: タイトルとタブ */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "2rem",
+            justifyContent: isMobile ? "space-between" : "flex-start",
+            gap: isMobile ? "1rem" : "2rem",
+            width: isMobile ? "100%" : "auto",
           }}
         >
           <h1
             style={{
-              fontSize: "1.5rem",
+              fontSize: isMobile ? "1.25rem" : "1.5rem",
               fontWeight: "bold",
               margin: 0,
             }}
           >
-            市政の可視化アプリ
+            Poli View
           </h1>
 
           {/* タブナビゲーション */}
@@ -68,13 +84,13 @@ export function Header({
             <Tabs.List
               style={{
                 display: "flex",
-                gap: "0.5rem",
+                gap: "0.25rem",
               }}
             >
               <Tabs.Trigger
                 value="policies"
                 style={{
-                  padding: "0.75rem 1rem",
+                  padding: isMobile ? "0.5rem 0.75rem" : "0.75rem 1rem",
                   backgroundColor: "transparent",
                   border: "none",
                   borderBottom:
@@ -82,7 +98,7 @@ export function Header({
                       ? "2px solid white"
                       : "2px solid transparent",
                   color: activeTab === "policies" ? "white" : "var(--blue-3)",
-                  fontSize: "0.875rem",
+                  fontSize: isMobile ? "0.75rem" : "0.875rem",
                   fontWeight: "500",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
@@ -103,7 +119,7 @@ export function Header({
               <Tabs.Trigger
                 value="finance"
                 style={{
-                  padding: "0.75rem 1rem",
+                  padding: isMobile ? "0.5rem 0.75rem" : "0.75rem 1rem",
                   backgroundColor: "transparent",
                   border: "none",
                   borderBottom:
@@ -111,7 +127,7 @@ export function Header({
                       ? "2px solid white"
                       : "2px solid transparent",
                   color: activeTab === "finance" ? "white" : "var(--blue-3)",
-                  fontSize: "0.875rem",
+                  fontSize: isMobile ? "0.75rem" : "0.875rem",
                   fontWeight: "500",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
@@ -133,8 +149,8 @@ export function Header({
           </Tabs.Root>
         </div>
 
-        {/* 右側: 検索欄 */}
-        <div style={{ width: "16rem" }}>
+        {/* 下段（モバイル）/ 右側（デスクトップ）: 検索欄 */}
+        <div style={{ width: isMobile ? "100%" : "16rem" }}>
           <TextField.Root
             placeholder="キーワードで政策を検索..."
             value={searchTerm}
