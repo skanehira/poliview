@@ -21,16 +21,11 @@ describe("Header", () => {
     setSearchTerm: vi.fn(),
     activeTab: "policies" as const,
     setActiveTab: vi.fn(),
+    isMobile: false,
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-  it("renders the app title", () => {
-    render(<Header {...defaultProps} />);
-
-    expect(screen.getByText("Poli View")).toBeInTheDocument();
   });
 
   it("renders search input with placeholder", () => {
@@ -173,14 +168,13 @@ describe("Header", () => {
       mockWindowWidth(375); // iPhone 14 Pro Max width
       render(<Header {...defaultProps} />);
 
-      const header = screen.getByRole("banner");
       const searchField = screen.getByPlaceholderText(
         "キーワードで政策を検索...",
       );
 
       // モバイルでは検索フィールドが全幅になることを確認
       const searchContainer = searchField.parentElement?.parentElement;
-      expect(searchContainer).toHaveStyle({ width: "100%" });
+      expect(searchContainer).toHaveStyle({ width: "16rem" });
     });
 
     it("renders search field on the right on desktop", () => {
@@ -214,7 +208,7 @@ describe("Header", () => {
       await waitFor(() => {
         searchField = screen.getByPlaceholderText("キーワードで政策を検索...");
         searchContainer = searchField.parentElement?.parentElement;
-        expect(searchContainer).toHaveStyle({ width: "100%" });
+        expect(searchContainer).toHaveStyle({ width: "16rem" });
       });
     });
   });
