@@ -205,9 +205,8 @@ export function PolicyBenefitsSection({ policy }: PolicyMetadataSectionProps) {
           </Heading>
           <Box
             style={{
-              position: "relative",
               borderLeft: "2px solid var(--blue-9)",
-              paddingLeft: "1.5rem",
+              paddingLeft: "1.46rem",
             }}
           >
             {policy.relatedEvents.map((event, index) => (
