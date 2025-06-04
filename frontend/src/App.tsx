@@ -10,7 +10,6 @@ import { usePolicies } from "./hooks/usePolicies";
 import type { Policy } from "./types/policy";
 
 function App() {
-  // Policies management with custom hook
   const {
     policies,
     sortOrder,
@@ -32,7 +31,19 @@ function App() {
   const [showFabMenu, setShowFabMenu] = useState(false); // FABメニューの開閉状態
   const [activeTab, setActiveTab] = useState<"policies" | "finance">(
     "policies",
-  ); // 'policies' or 'finance'
+  );
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // LLMによる政策要約機能
   const summarizePolicy = async (policy: Policy) => {
@@ -141,6 +152,7 @@ function App() {
         setSearchTerm={setSearchTerm}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        isMobile={isMobile}
       />
 
       {/* メインコンテンツ */}
@@ -150,7 +162,7 @@ function App() {
         style={{
           flexGrow: 1,
           padding: "1rem",
-          paddingTop: "10rem",
+          paddingTop: isMobile ? "8rem" : "5rem",
         }}
       >
         {activeTab === "policies" && (

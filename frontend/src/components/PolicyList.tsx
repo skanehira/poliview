@@ -70,11 +70,7 @@ export function PolicyList({
   }
 
   return (
-    <Grid
-      columns={{ initial: "1", sm: "2", lg: "3" }}
-      gap="6"
-      style={{ marginTop: "1rem" }}
-    >
+    <Grid columns={{ initial: "1", sm: "2", lg: "3" }} gap="6">
       {filteredPolicies.map((policy) => (
         <PolicyCard
           key={policy.id}

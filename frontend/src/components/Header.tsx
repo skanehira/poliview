@@ -1,11 +1,11 @@
 import { TextField, Tabs } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
 
 interface HeaderProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   activeTab: "policies" | "finance";
   setActiveTab: (tab: "policies" | "finance") => void;
+  isMobile: boolean;
 }
 
 export function Header({
@@ -13,19 +13,8 @@ export function Header({
   setSearchTerm,
   activeTab,
   setActiveTab,
+  isMobile,
 }: HeaderProps) {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   return (
     <header
       style={{
